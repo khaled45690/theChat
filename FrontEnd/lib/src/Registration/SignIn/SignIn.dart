@@ -32,7 +32,7 @@ class _SignInState extends State<SignIn> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Logo("Sign in"),
+          const Logo("Sign In"),
           TextFields(visibiltyChange , isHidden),
           const TextButtonWidget("Forget password?"),
           SizedBox(height: (MediaQuery.of(context).size.height / 5.5)),

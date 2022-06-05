@@ -1,3 +1,4 @@
+import 'package:chat/src/Home/Home.dart';
 import 'package:chat/src/Registration/Registration.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +15,8 @@ class Chat extends StatelessWidget {
       title: 'Chat',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
-
       ),
-      home: const Registration(true),
+      home: const Home(),
     );
   }
 }
