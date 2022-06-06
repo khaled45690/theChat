@@ -34,6 +34,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.0.1
+  font_awesome_flutter: ^10.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -75,6 +76,7 @@ flutter:
     - family: VLADIMIR
       fonts:
         - asset: Fonts/VLADIMIR.TTF
+        - asset: Fonts/MaterialIcons-Regular.TTF
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

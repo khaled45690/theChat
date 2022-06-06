@@ -15,7 +15,7 @@ class Logo extends StatelessWidget {
           width: 150,
         ),
         Text( text,
-            style: const TextStyle(fontSize: 35, color: Color(0xffC89FEB), fontWeight: FontWeight.w300)),
+            style: const TextStyle(fontSize: 35, fontWeight: FontWeight.w300)),
       ],
     );
   }
