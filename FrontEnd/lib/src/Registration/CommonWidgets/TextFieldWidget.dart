@@ -16,7 +16,6 @@ class RegistrationTextFieldWidget extends StatelessWidget {
       margin: const EdgeInsets.only(top: 20),
       width: MediaQuery.of(context).size.width - 40,
       child: TextField(
-
           textAlign: TextAlign.left,
           showCursor: true,
           enabled: true,
