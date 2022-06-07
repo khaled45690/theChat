@@ -28,13 +28,9 @@ class _TextChatState extends State<TextChat> {
         padding: EdgeInsets.only(top: 100),
         child: Stack(
           children: [
-            SendMessage(() {
-              setState(() {
-                expand = !expand;
-              });
-            }),
+
             Container(
-              height:expand  ? MediaQuery.of(context).size.height / 1.3 : MediaQuery.of(context).size.height / 2.2,
+              height:MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
                 controller: scrollController,
                 scrollDirection: Axis.vertical,
@@ -47,10 +43,12 @@ class _TextChatState extends State<TextChat> {
                     Messages(false),
                     Messages(false),
                     Messages(true),
+                    SizedBox(height: 100,)
                   ],
                 ),
               ),
             ),
+            SendMessage(),
           ],
         ),
       ),

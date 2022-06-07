@@ -4,20 +4,17 @@ import 'iconofmic.dart';
 import 'sendmsg.dart';
 
 class SendMessage extends StatelessWidget {
-  final VoidCallback expand;
-  SendMessage(this.expand);
+
+  SendMessage();
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 13,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          SendMsg(),
           IconOfMic(),
-          SendMsg(() {
-            expand();
-          })
         ],
       ),
     );

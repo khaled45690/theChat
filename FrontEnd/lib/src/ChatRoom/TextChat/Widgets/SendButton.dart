@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class IconOfMic extends StatelessWidget {
   const IconOfMic({Key? key}) : super(key: key);
@@ -10,9 +11,8 @@ class IconOfMic extends StatelessWidget {
         backgroundColor: Color(0xf7D0B0F3),
         child: IconButton(
             onPressed: () {},
-            icon: Icon(
-              Icons.mic,
-              color: Colors.amber,
+            icon: const Icon(
+              FontAwesomeIcons.arrowRight , color: Colors.deepPurpleAccent,
             )));
   }
 }
