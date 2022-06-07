@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'iconofmic.dart';
-import 'sendmsg.dart';
+import 'MessageTextField.dart';
+import 'SendButton.dart';
+
+
 
 class SendMessage extends StatelessWidget {
 

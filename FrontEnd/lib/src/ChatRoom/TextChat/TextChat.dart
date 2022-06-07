@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../CommonStyle.dart';
+import 'Widgets/MessageSender.dart';
 import 'Widgets/Messages.dart';
 import 'Widgets/TextChatAppBar.dart';
-import 'Widgets/textfieldsendmsg.dart';
 
 class TextChat extends StatefulWidget {
   const TextChat({Key? key}) : super(key: key);
