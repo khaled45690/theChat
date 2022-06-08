@@ -1,6 +1,8 @@
 const Auth = require('../model/auth_model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { User } = require('../constants');
+const checkEmail = require('./authFunctions/checkEmail');
 const { default: mongoose } = require('mongoose');
 
 
@@ -12,16 +14,16 @@ module.exports = {
                 return
             }
             console.log("Resultoooo: ", adventure);
-            if (adventure != undefined) {
-                console.log("this email exsisit")
-                return res.json({ message: "this email already  exist", isSuccess: false });
-            }
-
+            // if (adventure != undefined) {
+            //     console.log("this email exsisit")
+            //     return res.json({ message: "this email already  exist", isSuccess: false });
+            // }
+            checkEmail(adventure , res)
             bcrypt.hash(req.body.password, 10, async function (error, hash) {
                 if (error) {
                     return res.json({ message: error.message });
                 }
-                if (req.body.type == 0) {
+                if (req.body.type == User) {
                     console.log(req.body.type);
                     try {
                         const token = jwt.sign({ email: req.body.email, name: req.body.name, }, "USER");
@@ -142,15 +144,42 @@ module.exports = {
         console.log("Results: ", user[0]['stageId']);
 
         res.json({
-            result: user.map(res => {
-                return {
-                    id: res.id,
-                    name: res.name,
-                    email: res.email,
-                    user: user,
-                }
-            })
+      
+            user:user
+            
         })
+    },
+    addfriend: async (req, res, next) => {
+        const did = req.params.did;
+
+       try{
+        const friend = await new Auth({
+            _id : mongoose.Types.ObjectId(),
+            email: req.body.email
+
+        });
+        const auth = await Auth.findById(did);
+        auth.friends.push(friend)
+        await auth.save();
+        res.json({
+            message:"inserted",
+            isSuccess:true,
+            auth:auth,
+
+
+        });
+    }catch(e){
+        res.json({
+            message: e.message,
+            isSuccess:false,
+
+
+        })
+
     }
+      //  console.log("Results: ", user[0]['stageId']);
+    },
+
+
 
 }
