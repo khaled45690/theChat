@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TextButtonWidget extends StatelessWidget {
   final String text;
-  final Function( BuildContext context , StatefulWidget destination) onPressed;
+  final Function( BuildContext context , Widget destination) onPressed;
   const TextButtonWidget(this.text , this.onPressed);
 
   @override

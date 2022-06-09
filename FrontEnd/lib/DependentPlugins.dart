@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-navigateTo(context , destintaion){
+navigateTo(BuildContext context , Widget destintaion){
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => destintaion),

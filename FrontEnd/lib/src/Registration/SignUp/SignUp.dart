@@ -18,8 +18,9 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   late SignUpControl signUpControl;
+  bool isHidden = true;
   void initState() {
-    signUpControl = SignUpControl(this)
+    signUpControl = SignUpControl(this);
   }
   @override
   Widget build(BuildContext context) {
@@ -29,15 +30,15 @@ class _SignUpState extends State<SignUp> {
           decoration: scaffoldDecoration,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
+            children: [
               Logo("Sign up"),
-              TextFields(visibiltyChange , isHidden),
+              TextFields(signUpControl.visibiltyChange , signUpControl.onChange , isHidden),
               // SizedBox(height: (MediaQuery.of(context).size.height / 5.5)),
               PickImage(),
               InfoTextFields(),
-              RegistrationButton("Sign up"),
+              RegistrationButton("Sign up" , signUpControl.signup),
               SizedBox(height: 30),
-              TextButtonWidget("Already have account sign in instead"),
+              TextButtonWidget("Already have account sign in instead" , signUpControl.navigateToSignIn),
             ],
           ),
         ));
