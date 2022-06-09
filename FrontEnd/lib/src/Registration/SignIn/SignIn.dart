@@ -1,3 +1,4 @@
+import 'package:chat/src/Registration/SignIn/Control/SignInControl.dart';
 import 'package:chat/src/Registration/SignIn/widgets/TextFields.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import '../../../CommonStyle.dart';
 import '../CommonWidgets/Logo.dart';
 import '../CommonWidgets/RegistrationButton.dart';
 import '../CommonWidgets/TextButtonWidget.dart';
+import 'Model/SignInModel.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -15,35 +17,35 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  late SignInControl signInControl;
+  SignInModel signInData = SignInModel();
   bool isHidden = false;
-  visibiltyChange(){
-    if(isHidden){
-      setState(() { isHidden = false; });
-      return ;
-    }
-    setState(() { isHidden = true; });
+  @override
+  void initState() {
+    signInControl = SignInControl(this);
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         body: Container(
       width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
       decoration: scaffoldDecoration,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Logo("Sign In"),
-          TextFields(visibiltyChange , isHidden),
-          const TextButtonWidget("Forget password?"),
-          SizedBox(height: (MediaQuery.of(context).size.height / 5.5)),
-          const RegistrationButton("Sign in"),
-          const SizedBox(height: 30),
-          const TextButtonWidget("Don't have account then sign up"),
-          ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Logo("Sign In"),
+            TextFields(signInControl.visibiltyChange , signInControl.onChange , isHidden),
+            SizedBox(height: (MediaQuery.of(context).size.height / 5.5)),
+            RegistrationButton("Sign in" , signInControl.signingIn),
+            const SizedBox(height: 30),
+            TextButtonWidget("Don't have account then sign up" , signInControl.Navigate),
+            ],
+        ),
       ),
     ));
 
   }
-
-
 }

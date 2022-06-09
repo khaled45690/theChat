@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 class RegistrationButton extends StatelessWidget {
   final String text ;
-  const RegistrationButton(this.text);
+  final Function() onPress ;
+  const RegistrationButton(this.text , this.onPress);
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: onPress,
       minWidth: 220,
       height: 50,
       shape: RoundedRectangleBorder(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../DependentPlugins.dart';
 import '../../ChatRoom/ChatRoom.dart';
 import 'Avatar.dart';
 import 'MessageRoomInfo.dart';
@@ -18,10 +19,7 @@ class MessageRoomsLayout extends StatelessWidget {
         splashColor: Colors.deepPurpleAccent.shade400.withOpacity(0.2),
         padding:  const EdgeInsets.only(top: 5 , bottom: 5),
         onPressed: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ChatRoom()),
-          );
+          navigateTo(context , const ChatRoom());
         },
         child: Row(
           children: const [

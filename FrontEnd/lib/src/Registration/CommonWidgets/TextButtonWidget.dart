@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class TextButtonWidget extends StatelessWidget {
   final String text;
-  const TextButtonWidget(this.text);
+  final Function( BuildContext context , StatefulWidget destination) onPressed;
+  const TextButtonWidget(this.text , this.onPressed);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () => onPressed,
       child: Text(
         text,
         style: const TextStyle(

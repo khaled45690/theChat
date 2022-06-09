@@ -4,8 +4,9 @@ import '../../CommonWidgets/TextFieldWidget.dart';
 
 class TextFields extends StatelessWidget {
   final Function()? visibiltyChange;
+  final Function(String variableName , String value) onChange;
   final bool isHidden;
-  const TextFields(this.visibiltyChange , this.isHidden);
+  const TextFields(this.visibiltyChange , this.onChange , this.isHidden);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,8 @@ class TextFields extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 30),
         child: Column(
           children: [
-            const RegistrationTextFieldWidget(TextDirection.ltr, "please enter ur email"),
-            RegistrationTextFieldWidget(TextDirection.ltr, "please enter ur password",
+            RegistrationTextFieldWidget(TextDirection.ltr, onChange , "userName" , "please enter ur email"),
+            RegistrationTextFieldWidget(TextDirection.ltr, onChange , "password" ,"please enter ur password",
                 isPassword: true , visibiltyChange: visibiltyChange, isHidden: isHidden),
           ],
         ));

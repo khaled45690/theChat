@@ -5,6 +5,7 @@ import '../CommonWidgets/Logo.dart';
 import '../CommonWidgets/RegistrationButton.dart';
 import '../CommonWidgets/TextButtonWidget.dart';
 import '../SignIn/widgets/TextFields.dart';
+import 'Control/SignUpControl.dart';
 import 'Widgets/InfoTextFields.dart';
 import 'Widgets/PickImage.dart';
 
@@ -16,6 +17,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  late SignUpControl signUpControl;
+  void initState() {
+    signUpControl = SignUpControl(this)
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +31,7 @@ class _SignUpState extends State<SignUp> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: const [
               Logo("Sign up"),
-              // TextFields(visibiltyChange , isHidden),
+              TextFields(visibiltyChange , isHidden),
               // SizedBox(height: (MediaQuery.of(context).size.height / 5.5)),
               PickImage(),
               InfoTextFields(),
