@@ -15,7 +15,7 @@ class TextFields extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 30),
         child: Column(
           children: [
-            RegistrationTextFieldWidget(TextDirection.ltr, onChange , "userName" , loginDataError["userName"],"please enter ur email"),
+            RegistrationTextFieldWidget(TextDirection.ltr, onChange , "email" , loginDataError["email"],"please enter ur email"),
             RegistrationTextFieldWidget(TextDirection.ltr, onChange , "password" , loginDataError["password"],"please enter ur password",
                 isPassword: true , visibiltyChange: visibiltyChange, isHidden: isHidden),
           ],

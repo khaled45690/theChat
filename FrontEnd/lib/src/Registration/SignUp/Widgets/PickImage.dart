@@ -1,19 +1,31 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PickImage extends StatelessWidget {
-  const PickImage({Key? key}) : super(key: key);
+  final Function() onTap;
+  final String? imageName;
+  const PickImage(this.onTap , this.imageName);
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children:  [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: Colors.deepPurpleAccent,
-          backgroundImage: Image.asset("assets/unknownAvatar.jpg").image,
-        ),
-        Positioned(child: const Icon(Icons.add_a_photo_outlined , color: Colors.white70,) , right: 0, bottom: 5,)
-      ],
+    return InkWell(
+      onTap: onTap,
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.deepPurpleAccent,
+            backgroundImage: imageName == null ? Image.asset("assets/unknownAvatar.jpg").image : Image.file(File(imageName!)).image,
+          ),
+          Positioned(
+            right: 0,
+            bottom: 5,
+            child: Icon(FontAwesomeIcons.camera,
+                color: Colors.deepPurpleAccent.withOpacity(0.85)),
+          )
+        ],
+      ),
     );
   }
 }

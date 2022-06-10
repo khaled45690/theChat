@@ -3,20 +3,35 @@ import 'package:flutter/material.dart';
 import '../../CommonWidgets/TextFieldWidget.dart';
 
 class InfoTextFields extends StatelessWidget {
-  const InfoTextFields({Key? key}) : super(key: key);
+  final Function(String variableName, String value) onChange;
+  final Function(String variableName) visibiltyChange;
+  final Map signUpData, signUpDataError;
+  final Map<String, bool> isHidden;
+  const InfoTextFields(this.onChange, this.signUpData, this.signUpDataError,
+      this.isHidden, this.visibiltyChange);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(bottom: 30),
         child: Column(
-          children: const [
-            // RegistrationTextFieldWidget(TextDirection.ltr, "please enter ur email"),
-            // RegistrationTextFieldWidget(TextDirection.ltr, "please enter ur name"),
-            // RegistrationTextFieldWidget(TextDirection.ltr, "please enter ur password",
-            //     isPassword: true),
-            // RegistrationTextFieldWidget(TextDirection.ltr, "please re enter ur password",
-            //     isPassword: true),
+          children: [
+            RegistrationTextFieldWidget(TextDirection.ltr, onChange, "email",
+                signUpDataError["email"], "please enter ur email"),
+            RegistrationTextFieldWidget(TextDirection.ltr, onChange, "password",
+                signUpDataError["password"], "please enter ur password",
+                isPassword: true,
+                isHidden: isHidden["password"]!,
+                visibiltyChange: () => visibiltyChange("password")),
+            RegistrationTextFieldWidget(
+                TextDirection.ltr,
+                onChange,
+                "confirmPassword",
+                signUpDataError["confirmPassword"],
+                "please re-enter ur password",
+                isPassword: true,
+                visibiltyChange: ()=> visibiltyChange("confirmPassword"),
+                isHidden: isHidden["confirmPassword"]!),
           ],
         ));
   }

@@ -1,23 +1,23 @@
 class SignInModel{
 
-  String? userName;
+  String? email;
   String? password;
   SignInModel();
   Map toMap(){
     Map signIn = {
-      "userName"  : userName,
+      "email"  : email,
       "password" : password
     };
     return signIn;
   }
 
   fromMap(Map signIn){
-   userName = signIn["userName"];
+    email = signIn["email"];
    password = signIn["password"];
   }
 
   bool isSame(Map signIn){
-    if(signIn["username"] == null || signIn["password"] == null)  return false;
+    if(signIn["email"] == null || signIn["password"] == null)  return false;
 
     return true;
   }

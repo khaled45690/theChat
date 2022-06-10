@@ -1,25 +1,21 @@
 import 'dart:convert';
 
 import 'package:chat/src/Registration/SignIn/SignIn.dart';
+import 'package:chat/src/Registration/SignUp/SignUp.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../CommonStyle.dart';
+import '../../../../DependentPlugins.dart';
 import '../../../../constants/Constants.dart';
 
 class SignInControl {
   var state;
   SignInControl(this.state);
   visibiltyChange() {
-    if (state.isHidden) {
       state.setState(() {
-        state.isHidden = false;
+        state.isHidden = !state.isHidden;
       });
-      return;
-    }
-    state.setState(() {
-      state.isHidden = true;
-    });
   }
 
   onChange(String variableName, String value) {
@@ -29,22 +25,25 @@ class SignInControl {
     });
   }
 
-  Navigate(context, destination) {}
+  Navigate() {
+    Navigator.of(state.context).pop();
+    navigateTo(state.context , const SignUp());
+  }
 
   void login() async {
-    _check();
     if(_check()) return ;
     var url = Uri.parse("${serverURL}auth/login");
     http.Response response;
     print("entered");
     Map<String, String> bodyData = {
-      "email": "kkk@gmail.com",
-      "password": "123456"
+      "email": "ali@gmail.com",
+      "password": "12345556"
     };
     try {
       response = await http.post(url, body: jsonEncode(bodyData));
       if (response.statusCode == Status_success) {
         snackBar("لقد قمت بتسجيل الدخول بنجاح" , state.context);
+        print(response.body);
       }
     } catch (e) {
       snackBar(e.toString(), state.context);

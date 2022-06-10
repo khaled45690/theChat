@@ -1,8 +1,9 @@
+import 'package:chat/src/Registration/SignIn/SignIn.dart';
 import 'package:flutter/material.dart';
 
 class TextButtonWidget extends StatelessWidget {
   final String text;
-  final Function( BuildContext context , Widget destination) onPressed;
+  final Function() onPressed;
   const TextButtonWidget(this.text , this.onPressed);
 
   @override
