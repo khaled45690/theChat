@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 const cors = require('cors');
-const port =3000;
+const port =3050;
 const AuthRouter = require('./route/auth_route');
 const user_check =  require('./middleware/verify_user');
 const admin_check =  require('./middleware/verify_admin');
@@ -27,6 +27,6 @@ app.use(cors());
 app.use('/auth', AuthRouter);
 
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3050, () => {
     console.log("it is working");
 })   

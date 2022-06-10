@@ -8,6 +8,7 @@ import '../CommonWidgets/Logo.dart';
 import '../CommonWidgets/RegistrationButton.dart';
 import '../CommonWidgets/TextButtonWidget.dart';
 import 'Model/SignInModel.dart';
+import 'Model/userAuthApi.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -24,9 +25,9 @@ class _SignInState extends State<SignIn> {
   void initState() {
     signInControl = SignInControl(this);
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         body: Container(
       width: MediaQuery.of(context).size.width,
@@ -37,15 +38,18 @@ class _SignInState extends State<SignIn> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Logo("Sign In"),
-            TextFields(signInControl.visibiltyChange , signInControl.onChange , isHidden),
+            TextFields(signInControl.visibiltyChange, signInControl.onChange,
+                isHidden),
             SizedBox(height: (MediaQuery.of(context).size.height / 5.5)),
-            RegistrationButton("Sign in" , signInControl.signingIn),
+            RegistrationButton("Sign in", 
+              UsersAuthAPI().login("kkk@gmail.com", "123456", context)
+            ),
             const SizedBox(height: 30),
-            TextButtonWidget("Don't have account then sign up" , signInControl.Navigate),
-            ],
+            TextButtonWidget(
+                "Don't have account then sign up", signInControl.Navigate),
+          ],
         ),
       ),
     ));
-
   }
 }
