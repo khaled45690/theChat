@@ -12,3 +12,17 @@ BoxDecoration scaffoldDecoration = const BoxDecoration(
     ],
   ),
 );
+
+ snackBar(text , context) {
+   SnackBar snackBar =  SnackBar(
+      content: Text(
+        text,
+        style: TextStyle(fontSize: 18),
+      ));
+   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+
+// "لقد قمت بتسجيل الدخول بنجاح"
+
+

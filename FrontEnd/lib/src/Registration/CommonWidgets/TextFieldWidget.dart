@@ -7,10 +7,11 @@ class RegistrationTextFieldWidget extends StatelessWidget {
   final TextDirection textDirection;
   final String hint , variableName;
   final bool isPassword , isHidden;
+  final String? errorText;
   final Function()? visibiltyChange;
   final Function(String variableName , String value) onChange;
 
-  const RegistrationTextFieldWidget(this.textDirection, this.onChange , this.variableName, this.hint , {this.isPassword = false , this.isHidden = true , this.visibiltyChange});
+  const RegistrationTextFieldWidget(this.textDirection, this.onChange , this.variableName, this.errorText, this.hint , {this.isPassword = false , this.isHidden = true , this.visibiltyChange});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class RegistrationTextFieldWidget extends StatelessWidget {
               hintStyle: const TextStyle(
                 color: Colors.grey,
               ),
+              errorText: errorText,
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               hintText: hint)),

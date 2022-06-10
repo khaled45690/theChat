@@ -1,7 +1,7 @@
 class SignInModel{
 
   String? userName;
-  String? password ;
+  String? password;
   SignInModel();
   Map toMap(){
     Map signIn = {

@@ -18,13 +18,14 @@ module.exports = {
             //     console.log("this email exsisit")
             //     return res.json({ message: "this email already  exist", isSuccess: false });
             // }
-            checkEmail(adventure , res)
+            checkEmail(adventure, res)
             bcrypt.hash(req.body.password, 10, async function (error, hash) {
                 if (error) {
                     return res.json({ message: error.message });
                 }
                 if (req.body.type == User) {
                     console.log(req.body.type);
+                    console.log(req.body);
                     try {
                         const token = jwt.sign({ email: req.body.email, name: req.body.name, }, "USER");
                         const auth = await new Auth({
@@ -39,7 +40,6 @@ module.exports = {
                         res.json({
                             message: "create user successfully",
                             isSuccess: true,
-
                             id: auth.id,
                             name: auth.name,
                             email: auth.email,
@@ -144,40 +144,40 @@ module.exports = {
         console.log("Results: ", user[0]['stageId']);
 
         res.json({
-      
-            user:user
-            
+
+            user: user
+
         })
     },
     addfriend: async (req, res, next) => {
         const did = req.params.did;
 
-       try{
-        const friend = await new Auth({
-            _id : mongoose.Types.ObjectId(),
-            email: req.body.email
+        try {
+            const friend = await new Auth({
+                _id: mongoose.Types.ObjectId(),
+                email: req.body.email
 
-        });
-        const auth = await Auth.findById(did);
-        auth.friends.push(friend)
-        await auth.save();
-        res.json({
-            message:"inserted",
-            isSuccess:true,
-            auth:auth,
-
-
-        });
-    }catch(e){
-        res.json({
-            message: e.message,
-            isSuccess:false,
+            });
+            const auth = await Auth.findById(did);
+            auth.friends.push(friend)
+            await auth.save();
+            res.json({
+                message: "inserted",
+                isSuccess: true,
+                auth: auth,
 
 
-        })
+            });
+        } catch (e) {
+            res.json({
+                message: e.message,
+                isSuccess: false,
 
-    }
-      //  console.log("Results: ", user[0]['stageId']);
+
+            })
+
+        }
+        //  console.log("Results: ", user[0]['stageId']);
     },
 
 

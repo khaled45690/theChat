@@ -8,7 +8,6 @@ import '../CommonWidgets/Logo.dart';
 import '../CommonWidgets/RegistrationButton.dart';
 import '../CommonWidgets/TextButtonWidget.dart';
 import 'Model/SignInModel.dart';
-import 'Model/userAuthApi.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -18,13 +17,24 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  late SignInControl signInControl;
-  SignInModel signInData = SignInModel();
-  bool isHidden = false;
+  // Declaring and initializing variables Section//////////////////
+  late SignInControl signInControl;                              //
+  SignInModel signInData = SignInModel();                        //
+  bool isHidden = true;                                          //
+  Map loginData = SignInModel().toMap() , loginDataError = {};   //
+  //  End section of Declaring and initializing variables//////////
+
+
+
   @override
   void initState() {
     signInControl = SignInControl(this);
+    loginData.keys.forEach((key) {print(key);});
+
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +49,10 @@ class _SignInState extends State<SignIn> {
           children: [
             const Logo("Sign In"),
             TextFields(signInControl.visibiltyChange, signInControl.onChange,
-                isHidden),
+                loginData , loginDataError, isHidden),
             SizedBox(height: (MediaQuery.of(context).size.height / 5.5)),
-            RegistrationButton("Sign in", 
-              UsersAuthAPI().login("kkk@gmail.com", "123456", context)
-            ),
+            RegistrationButton(
+                "Sign in", signInControl.login),
             const SizedBox(height: 30),
             TextButtonWidget(
                 "Don't have account then sign up", signInControl.Navigate),

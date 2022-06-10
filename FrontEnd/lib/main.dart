@@ -18,7 +18,7 @@ class Chat extends StatelessWidget {
 
       theme: ThemeData(
       ),
-      home:  SignIn(),
+      home:  Registration(true),
     );
   }
 }

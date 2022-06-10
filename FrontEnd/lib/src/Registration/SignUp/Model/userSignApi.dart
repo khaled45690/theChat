@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../../../../constants/statuscode.dart';
-import '../../../../serverUrl.dart';
+import '../../../../constants/Constants.dart';
 
 class UserSignupApi {
-  Future signup(String email, String password, String name,int type,BuildContext context) async {
+  signup(String email, String password, String name,int type,BuildContext context) async {
     var url = Uri.parse("${serverURL}auth/signup");
     http.Response response;
 
@@ -14,9 +13,9 @@ class UserSignupApi {
       response = await http.post(url, body: jsonEncode(bodyData));
       if (response.statusCode == Status_success) {
         print(response.body);
-                print(response.statusCode);
+        print(response.statusCode);
 
-        final snackBar = SnackBar(
+        const snackBar = SnackBar(
             content: Text(
           "لقد قمت بعمل ايمال جديد بنجاح",
           style: TextStyle(fontSize: 18),
