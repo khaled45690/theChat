@@ -13,9 +13,9 @@ class SignInControl {
   var state;
   SignInControl(this.state);
   visibiltyChange() {
-      state.setState(() {
-        state.isHidden = !state.isHidden;
-      });
+    state.setState(() {
+      state.isHidden = !state.isHidden;
+    });
   }
 
   onChange(String variableName, String value) {
@@ -27,23 +27,31 @@ class SignInControl {
 
   Navigate() {
     Navigator.of(state.context).pop();
-    navigateTo(state.context , const SignUp());
+    navigateTo(state.context, const SignUp());
   }
 
   void login() async {
-    if(_check()) return ;
+    if (_check()) return;
     var url = Uri.parse("${serverURL}auth/login");
     http.Response response;
     print("entered");
     Map<String, String> bodyData = {
-      "email": "ali@gmail.com",
-      "password": "12345556"
+      'email': 'kkk@gmail.com',
+      'password': '123456'
     };
     try {
-      response = await http.post(url, body: jsonEncode(bodyData));
+      response = await http.post(url, body: json.encode(bodyData));
+      print(jsonDecode(response.body));
+      Map jsonmessaga = jsonDecode(response.body);
+      print('kkk ${jsonmessaga['message']}');
       if (response.statusCode == Status_success) {
-        snackBar("لقد قمت بتسجيل الدخول بنجاح" , state.context);
-        print(response.body);
+        if (jsonmessaga['isSuccess']) {
+          snackBar("${jsonmessaga['message']}", state.context);
+        } else {
+          snackBar("${jsonmessaga['message']}", state.context);
+        }
+
+        //  print(response.body);
       }
     } catch (e) {
       snackBar(e.toString(), state.context);
@@ -51,16 +59,16 @@ class SignInControl {
   }
 
   bool _check() {
-
-    bool check  = false;
+    bool check = false;
     state.loginData.keys.forEach((key) => {
-      if(state.loginData[key] == null){
-        state.setState(() {
-          check = true ;
-          state.loginDataError[key] = "this field is required";
-    })
-      }
-    });
+          if (state.loginData[key] == null)
+            {
+              state.setState(() {
+                check = true;
+                state.loginDataError[key] = "this field is required";
+              })
+            }
+        });
     return check;
   }
 }

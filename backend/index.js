@@ -8,6 +8,11 @@ const AuthRouter = require('./route/auth_route');
 const user_check =  require('./middleware/verify_user');
 const admin_check =  require('./middleware/verify_admin');
 
+var http = require("http");
+var server = http.createServer(app);
+var io = require("socket.io")(server);
+
+
 
 
 
@@ -27,6 +32,19 @@ app.use(cors());
 app.use('/auth', AuthRouter);
 
 
-app.listen(process.env.PORT || 3050, () => {
-    console.log("it is working");
-})   
+var clients = {};
+
+io.on("connection", (socket) => {
+    console.log("connected");
+    console.log(socket.id, "has join");
+    socket.on("/test", (msg) => {
+        console.log(msg);
+
+    });
+});
+
+
+// server listin to the port or the local server of the machine
+server.listen(port, "0.0.0.0", () => {
+    console.log("server is working");
+})

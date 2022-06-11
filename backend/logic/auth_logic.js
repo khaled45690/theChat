@@ -103,7 +103,7 @@ module.exports = {
     login: async (req, res) => {
         const user = await Auth.find({ email: req.body.email });
         if (user.length < 1) {
-            return res.json({ message: "this email not exist" });
+            return res.json({ message: "this email not exist" , isSuccess: false,});
         } else {
             bcrypt.compare(req.body.password, user[0].password, async (erorr, result) => {
                 if (erorr) {
