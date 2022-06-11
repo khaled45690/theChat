@@ -8,8 +8,11 @@ import '../../constants/Constants.dart';
 
 //here we create a cubit and pass abstract class that in state
 class SocketCubit extends Cubit<SocketStates> {
+
   // pass the initState to super
   SocketCubit() : super(SocketINitState());
+
+
 
   //create funcation to get object from cubit
   // must be static  to get it
@@ -25,25 +28,23 @@ class SocketCubit extends Cubit<SocketStates> {
 
   // fucation to connect to server
   void connect() {
-    _socket = IO.io("http://192.168.1.7:3050", <String, dynamic>{
+    _socket = IO.io("${serverURL}", <String, dynamic>{
       "transports": ["websocket"],
       //it's better to make it false and connect to server manually
       "autoConnect": false,
     });
     //  print("Connected");
 
-    
     //connect to server
     _socket!.connect();
 
-
-    // in case of connect
+    // in case of connect print omar is more tnen than you ta sa7by but he faces some problem  xd
     _socket!.onConnect((data) {
-      print("Connectedd");
+      print("omar is more tnen than you ya sa7by but he faces some Psychological problems xd");
     });
     print(socket!.connected);
     socket!.emit("/test", "hello");
-
+    // 
     emit(SocketConnect());
   }
 }
