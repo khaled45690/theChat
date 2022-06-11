@@ -23,7 +23,7 @@ class _SignUpState extends State<SignUp> {
   late SignUpControl signUpControl;                                              //
   Map<String,bool> isHidden = {"password" : true , "confirmPassword" : true};    //
   Map signUpData = SignUpModel().toMap() , signUpDataError = {};                 //
-  //  End section of Declaring and initializing variables/////////////////////////
+  //  End section of Declaring and initializing variables//////////////////////////
 
 
 
@@ -46,10 +46,7 @@ class _SignUpState extends State<SignUp> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Logo("Sign up"),
-                // TextFields(signUpControl.visibiltyChange , signUpControl.onChange , isHidden),
-                // SizedBox(height: (MediaQuery.of(context).size.height / 20)),
-                PickImage(signUpControl.pickImage , signUpData["imageName"]),
-                signUpDataError["imageName"] == null ? Container() : const Text("please pick image to continue" , style: TextStyle(color: Colors.red),),
+                SizedBox(height: 15),
                 InfoTextFields(signUpControl.onChange , signUpData , signUpDataError , isHidden , signUpControl.visibiltyChange),
                 RegistrationButton("Sign up" , signUpControl.signup),
                 const SizedBox(height: 20),

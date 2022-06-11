@@ -1,7 +1,5 @@
 import 'package:chat/src/Home/Home.dart';
 import 'package:chat/src/Registration/Registration.dart';
-import 'package:chat/src/Registration/SignIn/SignIn.dart';
-import 'package:chat/src/Registration/SignUp/SignUp.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +16,7 @@ class Chat extends StatelessWidget {
 
       theme: ThemeData(
       ),
-      home:  Registration(true),
+      home:  Registration(false),
     );
   }
 }

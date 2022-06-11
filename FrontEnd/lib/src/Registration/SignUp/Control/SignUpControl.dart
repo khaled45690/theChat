@@ -24,9 +24,6 @@ import '../../../../DependentPlugins.dart';
      });
    }
 
-   signup(){
-     if(_check()) return ;
-   }
 
    pickImage()async {
      final ImagePicker _picker = ImagePicker();
@@ -50,11 +47,14 @@ import '../../../../DependentPlugins.dart';
       navigateTo(state.context , const SignIn());
    }
 
+   signup(){
+     if(_check()) return ;
+     if(_gmailCheck()) return ;
+   }
 
    bool _check() {
      bool check  = false;
      state.signUpData.keys.forEach((key) => {
-       print(key) ,
        if(state.signUpData[key] == null){
          state.setState(() {
            check = true ;
@@ -63,6 +63,22 @@ import '../../../../DependentPlugins.dart';
        }
      });
      return check;
+   }
+
+   bool _gmailCheck(){
+    // ^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$
+     bool gmailCheck;
+
+     RegExp alphanumeric = RegExp(r'^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$');
+     gmailCheck = alphanumeric.hasMatch(state.signUpData["email"]);
+     print(!gmailCheck) ;
+     if(!gmailCheck){
+       state.setState(() {
+         state.signUpDataError["email"] = "please enter gmail account";
+       });
+     }
+
+     return !gmailCheck;
    }
  }
 

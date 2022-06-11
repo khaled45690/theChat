@@ -16,6 +16,8 @@ class InfoTextFields extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 30),
         child: Column(
           children: [
+            RegistrationTextFieldWidget(TextDirection.ltr, onChange, "name",
+                signUpDataError["name"], "please enter ur name"),
             RegistrationTextFieldWidget(TextDirection.ltr, onChange, "email",
                 signUpDataError["email"], "please enter ur email"),
             RegistrationTextFieldWidget(TextDirection.ltr, onChange, "password",
