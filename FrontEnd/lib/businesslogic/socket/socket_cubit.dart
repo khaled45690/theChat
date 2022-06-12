@@ -38,7 +38,7 @@ class SocketCubit extends Cubit<SocketStates> {
     //connect to server
     _socket!.connect();
 
-    // in case of connect print omar is more tnen than you ta sa7by but he faces some problem  xd
+    // in case of connect print "omar is more tnen than you ya sa7by but he faces some Psychological problem  xd"
     _socket!.onConnect((data) {
       print("omar is more tnen than you ya sa7by but he faces some Psychological problems xd");
     });
