@@ -8,9 +8,9 @@ const { default: mongoose } = require('mongoose');
 
 module.exports = {
     signup: async (req, res) => {
-        res.end();
         const user = Auth.findOne({ email: req.body.email }, function (err, adventure) {
             if (err) {
+                res.status(404);
                 console.log("erorrrrror", err)
                 return
             }
@@ -18,6 +18,7 @@ module.exports = {
             checkEmail(adventure, res)
             bcrypt.hash(req.body.password, 10, async function (error, hash) {
                 if (error) {
+                    res.status(404);
                     return res.json({ message: error.message });
                 }
                 if (req.body.type == User) {
@@ -38,6 +39,7 @@ module.exports = {
                         });
                     }
                     catch (e) {
+                        res.status(200);
                         res.json({
                             message: e.message,
                             isSuccess: false,

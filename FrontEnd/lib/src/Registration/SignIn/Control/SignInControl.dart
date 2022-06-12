@@ -31,7 +31,7 @@ class SignInControl {
     navigateTo(state.context, const SignUp());
   }
 
-  void login() async {
+  void login(BuildContext contex) async {
     if (_check()) return;
     var url = Uri.parse("${serverURL}auth/login");
     http.Response response;

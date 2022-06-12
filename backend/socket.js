@@ -9,11 +9,9 @@ module.exports = (io) => {
 
         });
 
-
         socket.on("message", (msg) => {
             console.log(msg);
             let Receiver = msg.Receiver;
-
             // if (clients[Receiver])
             //     clients[Receiver].emit("message", msg);
         });

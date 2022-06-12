@@ -30,10 +30,6 @@ class _HomeState extends State<Home> {
       create: (BuildContext context) => SocketCubit(),
       child: BlocBuilder<SocketCubit, SocketStates>(
           builder: (BuildContext context, state) {
-            // this context relate to the context of cubit
-            // SocketCubit cubit = SocketCubit.get(context);
-            // cubit.connect();
-            // cubit.socket!.emit("connected", "connected");
             return Scaffold(
               extendBodyBehindAppBar: true,
               drawer: Container(),

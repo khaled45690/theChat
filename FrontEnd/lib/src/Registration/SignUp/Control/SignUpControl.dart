@@ -1,12 +1,19 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:chat/src/Registration/SignIn/SignIn.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../CommonStyle.dart';
 import '../../../../DependentPlugins.dart';
+import '../../../../businesslogic/UserData/UserDataModel.dart';
+import '../../../../businesslogic/UserData/UserData_cubit.dart';
 import '../../../../constants/Constants.dart';
+import '../../../Home/Home.dart';
 
  class SignUpControl{
    var state;
@@ -49,17 +56,26 @@ import '../../../../constants/Constants.dart';
       navigateTo(state.context , const SignIn());
    }
 
-   signup() async {
+   signup(BuildContext context) async {
      _removeUnwantedWhiteSpaces();
      if(_check()) return ;
      if(_gmailCheck()) return ;
      if(_unMatchPassword()) return ;
      state.signUpData["type"] =  user;
      Map finalData = state.signUpData;
+     String confirmPassword = state.signUpData["confirmPassword"];
      finalData.remove("confirmPassword");
      Response response = await HttpPost("auth/signup",finalData);
+     Map responseData = jsonDecode(response.body);
      if(response.statusCode == Status_success){
-
+       state.signUpData["confirmPassword"] = confirmPassword;
+       UserData userData = UserData();
+       userData.fromMap(responseData["userData"]);
+       context.read<UserDataCubit>().setUserData(userData);
+       navigateTo(state.context , const Home());
+     }else{
+       state.signUpData["confirmPassword"] = confirmPassword;
+       snackBar(context , responseData["message"]);
      }
 
    }

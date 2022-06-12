@@ -34,7 +34,6 @@ app.use('/auth', AuthRouter);
 
 socket(io);
 
-
 // server listin to the port or the local server of the machine
 server.listen(port, "0.0.0.0", () => {
     console.log("server is working");
