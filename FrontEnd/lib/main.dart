@@ -1,9 +1,16 @@
 import 'package:chat/src/Home/Home.dart';
 import 'package:chat/src/Registration/Registration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'businesslogic/socket/socket_cubit.dart';
 
 void main() {
-  runApp(const Chat());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider<SocketCubit>(
+      create: (BuildContext context) => SocketCubit(),
+    ),
+  ], child: const Chat()));
 }
 
 class Chat extends StatelessWidget {
@@ -13,10 +20,8 @@ class Chat extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Chat',
-
-      theme: ThemeData(
-      ),
-      home:  Home(),
+      theme: ThemeData(),
+      home: Registration(true),
     );
   }
 }

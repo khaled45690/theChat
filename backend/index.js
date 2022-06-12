@@ -3,10 +3,11 @@ const app = express();
 const mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 const cors = require('cors');
-const port =3050;
+const port = 3050;
 const AuthRouter = require('./route/auth_route');
-const user_check =  require('./middleware/verify_user');
-const admin_check =  require('./middleware/verify_admin');
+const user_check = require('./middleware/verify_user');
+const admin_check = require('./middleware/verify_admin');
+const socket = require('./socket');
 
 var http = require("http");
 var server = http.createServer(app);
@@ -31,17 +32,7 @@ app.use(cors());
 
 app.use('/auth', AuthRouter);
 
-
-var clients = {};
-
-io.on("connection", (socket) => {
-    console.log("connected");
-    console.log(socket.id, "has join");
-    socket.on("/test", (msg) => {
-        console.log(msg);
-
-    });
-});
+socket(io);
 
 
 // server listin to the port or the local server of the machine

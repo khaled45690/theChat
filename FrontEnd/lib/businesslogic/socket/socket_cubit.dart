@@ -33,12 +33,11 @@ class SocketCubit extends Cubit<SocketStates> {
       //it's better to make it false and connect to server manually
       "autoConnect": false,
     });
-    //  print("Connected");
 
     //connect to server
     _socket!.connect();
 
-    // in case of connect print "omar is more tnen than you ya sa7by but he faces some Psychological problem  xd"
+    // in case of connect print "tnen tnen asa7by we mesh 73'ayarha"
     _socket!.onConnect((data) {
       print("omar is more tnen than you ya sa7by but he faces some Psychological problems xd");
     });

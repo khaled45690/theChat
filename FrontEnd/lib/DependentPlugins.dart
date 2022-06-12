@@ -7,7 +7,8 @@ import 'package:http/http.dart';
 
 import 'constants/Constants.dart';
 
-navigateTo(BuildContext context , Widget destintaion){
+navigateTo(BuildContext context ,destintaion){
+
   Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => destintaion),
@@ -17,6 +18,6 @@ navigateTo(BuildContext context , Widget destintaion){
 
 Future<Response> HttpPost(String api , Map body) async{
   var url = Uri.parse("$serverURL$api");
-  return await post(url, body: jsonEncode(body));
+  return await post(url,   headers: {"Content-Type": "application/json"},  body: jsonEncode(body));
 }
 

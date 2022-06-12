@@ -1,9 +1,11 @@
-// ctreate abstract class
+// create abstract class
+import 'package:socket_io_client/socket_io_client.dart';
+
 abstract class SocketStates{}
 // create initstate from abstract class
 class SocketINitState extends SocketStates{}
 
-// ctreat class in case of connected
+// create class in case of connected
 class SocketConnect extends SocketStates {}
 
 // create class in case not connected

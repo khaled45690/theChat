@@ -9,7 +9,7 @@ class TextButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onPressed,
+      onTap: onPressed,
       child: Text(
         text,
         style: const TextStyle(

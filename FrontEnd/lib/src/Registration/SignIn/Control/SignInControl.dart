@@ -26,6 +26,7 @@ class SignInControl {
   }
 
   Navigate() {
+    print("ee");
     Navigator.of(state.context).pop();
     navigateTo(state.context, const SignUp());
   }
@@ -39,8 +40,11 @@ class SignInControl {
       'email': 'kkk@gmail.com',
       'password': '123456'
     };
+    print(bodyData);
     try {
-      response = await http.post(url, body: json.encode(bodyData));
+      response = await http.post(url,
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(bodyData));
       print(jsonDecode(response.body));
       Map jsonmessaga = jsonDecode(response.body);
       print('kkk ${jsonmessaga['message']}');

@@ -8,46 +8,34 @@ const { default: mongoose } = require('mongoose');
 
 module.exports = {
     signup: async (req, res) => {
+        res.end();
         const user = Auth.findOne({ email: req.body.email }, function (err, adventure) {
             if (err) {
                 console.log("erorrrrror", err)
                 return
             }
             console.log("Resultoooo: ", adventure);
-            // if (adventure != undefined) {
-            //     console.log("this email exsisit")
-            //     return res.json({ message: "this email already  exist", isSuccess: false });
-            // }
             checkEmail(adventure, res)
             bcrypt.hash(req.body.password, 10, async function (error, hash) {
                 if (error) {
                     return res.json({ message: error.message });
                 }
                 if (req.body.type == User) {
-                    console.log(req.body.type);
-                    console.log(req.body);
                     try {
                         const token = jwt.sign({ email: req.body.email, name: req.body.name, }, "USER");
-                        const auth = await new Auth({
-                            _id: mongoose.Types.ObjectId(),
-                            name: req.body.name,
-                            email: req.body.email,
-                            password: hash,
-                            type: req.body.type,
-
-
-                        }).save();
+                        req.body["_id"] = mongoose.Types.ObjectId();
+                        console.log(req.body);
+                        req.body["password"] = hash;
+                        console.log(hash);
+                        console.log(req.body);
+                        const auth = await new Auth(req.body).save();
+                        auth.token = token
+                        res.status(200);
                         res.json({
                             message: "create user successfully",
                             isSuccess: true,
-                            id: auth.id,
-                            name: auth.name,
-                            email: auth.email,
-                            password: hash,
-                            type: auth.type,
-                            friends: auth.friends,
-                            token: token
-                        })
+                            userData: auth
+                        });
                     }
                     catch (e) {
                         res.json({
@@ -66,7 +54,6 @@ module.exports = {
                             _id: mongoose.Types.ObjectId(),
                             name: req.body.name,
                             email: req.body.email,
-
                             password: hash,
                             type: req.body.type,
 
@@ -102,8 +89,11 @@ module.exports = {
     },
     login: async (req, res) => {
         const user = await Auth.find({ email: req.body.email });
+        const user1 = await Auth.find();
+        console.log(user);
+        console.log(req.body);
         if (user.length < 1) {
-            return res.json({ message: "this email not exist" , isSuccess: false,});
+            return res.json({ message: "this email not exist", isSuccess: false, });
         } else {
             bcrypt.compare(req.body.password, user[0].password, async (erorr, result) => {
                 if (erorr) {

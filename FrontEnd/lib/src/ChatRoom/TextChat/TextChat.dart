@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../CommonStyle.dart';
+import '../../../businesslogic/socket/socket_cubit.dart';
+import '../../../businesslogic/socket/socket_state.dart';
 import 'Widgets/MessageSender.dart';
 import 'Widgets/Messages.dart';
 import 'Widgets/TextChatAppBar.dart';
@@ -14,10 +17,15 @@ class TextChat extends StatefulWidget {
 
 class _TextChatState extends State<TextChat> {
   ScrollController scrollController = ScrollController();
+  @override
+  initState(){
+    print("object");
+    context.read<SocketCubit>().socket!.emit("message", "message");
+  }
   bool expand = true;
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const TextChatAppBar(),

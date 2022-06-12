@@ -2,9 +2,11 @@ import 'dart:ffi';
 
 import 'package:chat/src/Registration/SignIn/SignIn.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../DependentPlugins.dart';
+import '../../../../constants/Constants.dart';
 
  class SignUpControl{
    var state;
@@ -47,9 +49,19 @@ import '../../../../DependentPlugins.dart';
       navigateTo(state.context , const SignIn());
    }
 
-   signup(){
+   signup() async {
+     _removeUnwantedWhiteSpaces();
      if(_check()) return ;
      if(_gmailCheck()) return ;
+     if(_unMatchPassword()) return ;
+     state.signUpData["type"] =  user;
+     Map finalData = state.signUpData;
+     finalData.remove("confirmPassword");
+     Response response = await HttpPost("auth/signup",finalData);
+     if(response.statusCode == Status_success){
+
+     }
+
    }
 
    bool _check() {
@@ -79,6 +91,27 @@ import '../../../../DependentPlugins.dart';
      }
 
      return !gmailCheck;
+   }
+
+
+   bool _unMatchPassword(){
+     bool unMatchPassword;
+     unMatchPassword = state.signUpData["password"] == state.signUpData["confirmPassword"];
+     print(!unMatchPassword) ;
+     if(!unMatchPassword){
+       state.setState(() {
+         state.signUpDataError["password"] = "please make sure password match confirm password";
+         state.signUpDataError["confirmPassword"] = "please make sure password match confirm password";
+       });
+     }
+
+     return !unMatchPassword;
+   }
+
+
+   _removeUnwantedWhiteSpaces(){
+     state.signUpData["email"] = state.signUpData["email"].replaceAll(' ', '');
+     state.signUpData["password"] = state.signUpData["password"].replaceAll(' ', '');
    }
  }
 
