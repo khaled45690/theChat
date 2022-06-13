@@ -58,14 +58,13 @@ import '../../../Home/Home.dart';
 
    signup(BuildContext context) async {
      _removeUnwantedWhiteSpaces();
-     if(_check()) return ;
+     if(_nullCheck()) return ;
      if(_gmailCheck()) return ;
      if(_unMatchPassword()) return ;
      state.signUpData["type"] =  user;
-     Map finalData = state.signUpData;
      String confirmPassword = state.signUpData["confirmPassword"];
-     finalData.remove("confirmPassword");
-     Response response = await HttpPost("auth/signup",finalData);
+     state.signUpData.remove("confirmPassword");
+     Response response = await HttpPost("auth/signup",state.signUpData);
      Map responseData = jsonDecode(response.body);
      if(response.statusCode == Status_success){
        state.signUpData["confirmPassword"] = confirmPassword;
@@ -75,12 +74,12 @@ import '../../../Home/Home.dart';
        navigateTo(state.context , const Home());
      }else{
        state.signUpData["confirmPassword"] = confirmPassword;
-       snackBar(context , responseData["message"]);
+       snackBar(responseData["message"] , context);
      }
 
    }
 
-   bool _check() {
+   bool _nullCheck() {
      bool check  = false;
      state.signUpData.keys.forEach((key) => {
        if(state.signUpData[key] == null){

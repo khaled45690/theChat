@@ -21,6 +21,7 @@ class UserDataCubit extends Cubit<UserDataState> {
     return BlocProvider.of(context);
   }
   late Future<SharedPreferences> _prefs =  SharedPreferences.getInstance();
+  SharedPreferences? prefs;
 
   // initialize UserData
   UserData _userData = UserData();
@@ -34,10 +35,15 @@ class UserDataCubit extends Cubit<UserDataState> {
     _userData = userData;
     prefs.setString("UserData" , jsonEncode(_userData.toMap()));
   }
+ setPrefs()async{
+    prefs = await _prefs;
+}
+  UserData? getUserDataFromPref(){
+    print("entered");
+    String? userDataString = prefs?.getString("UserData");
+    if(userDataString == null) return null;
 
-  Future<UserData> getUserDataFromPref()async{
-    SharedPreferences prefs = await _prefs;
-    Map data = jsonDecode(prefs.getString("UserData")!);
+    Map data = jsonDecode(prefs!.getString("UserData")!);
     _userData.fromMap(data);
     return _userData;
   }

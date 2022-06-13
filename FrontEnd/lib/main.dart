@@ -1,8 +1,6 @@
-import 'package:chat/src/Home/Home.dart';
-import 'package:chat/src/Registration/Registration.dart';
+import 'package:chat/src/SplashScreen/SpashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'businesslogic/UserData/UserData_cubit.dart';
 import 'businesslogic/socket/socket_cubit.dart';
 
@@ -25,7 +23,9 @@ class Chat extends StatelessWidget {
     return MaterialApp(
       title: 'Chat',
       theme: ThemeData(),
-      home: const Registration(true),
+      home: const SplashScreen(),
     );
   }
 }
+
+

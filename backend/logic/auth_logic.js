@@ -95,23 +95,22 @@ module.exports = {
         console.log(user);
         console.log(req.body);
         if (user.length < 1) {
+            res.status(404);
             return res.json({ message: "this email not exist", isSuccess: false, });
         } else {
             bcrypt.compare(req.body.password, user[0].password, async (erorr, result) => {
                 if (erorr) {
+                    res.status(404);
                     return res.json({ message: "password not exist" });
                 }
                 if (result) {
                     if (user[0].type == 0) {
                         const token = jwt.sign({ email: user[0].email, name: user[0].name, }, "USER");
+                        user[0]["token"] = token;
                         return res.json({
                             message: "user logged in",
                             isSuccess: true,
-                            id: user[0].id,
-                            user: [
-                                user[0]
-                            ],
-                            token: token,
+                            userData: user[0]
                         });
 
                     } else {

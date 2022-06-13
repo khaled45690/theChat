@@ -1,13 +1,16 @@
 import 'dart:convert';
 
-import 'package:chat/src/Registration/SignIn/SignIn.dart';
 import 'package:chat/src/Registration/SignUp/SignUp.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 
 import '../../../../CommonStyle.dart';
 import '../../../../DependentPlugins.dart';
+import '../../../../businesslogic/UserData/UserDataModel.dart';
+import '../../../../businesslogic/UserData/UserData_cubit.dart';
 import '../../../../constants/Constants.dart';
+import '../../../Home/Home.dart';
 
 class SignInControl {
   var state;
@@ -26,39 +29,24 @@ class SignInControl {
   }
 
   Navigate() {
-    print("ee");
     Navigator.of(state.context).pop();
     navigateTo(state.context, const SignUp());
   }
 
-  void login(BuildContext contex) async {
+  void login(BuildContext context) async {
+    _removeUnwantedWhiteSpaces();
     if (_check()) return;
-    var url = Uri.parse("${serverURL}auth/login");
-    http.Response response;
-    print("entered");
-    Map<String, String> bodyData = {
-      'email': 'kkk@gmail.com',
-      'password': '123456'
-    };
-    print(bodyData);
-    try {
-      response = await http.post(url,
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode(bodyData));
-      print(jsonDecode(response.body));
-      Map jsonmessaga = jsonDecode(response.body);
-      print('kkk ${jsonmessaga['message']}');
-      if (response.statusCode == Status_success) {
-        if (jsonmessaga['isSuccess']) {
-          snackBar("${jsonmessaga['message']}", state.context);
-        } else {
-          snackBar("${jsonmessaga['message']}", state.context);
-        }
 
-        //  print(response.body);
-      }
-    } catch (e) {
-      snackBar(e.toString(), state.context);
+    Response response = await HttpPost("auth/login",state.loginData);
+    Map responseData = jsonDecode(response.body);
+    print(responseData);
+    if(response.statusCode == Status_success){
+      UserData userData = UserData();
+      userData.fromMap(responseData["userData"]);
+      context.read<UserDataCubit>().setUserData(userData);
+      navigateTo(state.context , const Home());
+    }else{
+      snackBar(responseData["message"] , context);
     }
   }
 
@@ -74,5 +62,10 @@ class SignInControl {
             }
         });
     return check;
+  }
+
+  _removeUnwantedWhiteSpaces(){
+    state.loginData["email"] = state.loginData["email"].replaceAll(' ', '');
+    state.loginData["password"] = state.loginData["password"].replaceAll(' ', '');
   }
 }
