@@ -1,6 +1,28 @@
 const mongoose = require('mongoose');
 
-const auth = mongoose.Schema({
+
+var friendsInfoSchema = mongoose.Schema({
+    _id: {
+        type: String,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    imageName: {
+        type: String,
+    },
+    message: {
+        type: Array,
+    }
+});
+const friendsSchema = mongoose.Schema({
+    id: {
+        type: friendsInfoSchema,
+    },
+});
+
+var auth = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
         type: String,
@@ -21,13 +43,15 @@ const auth = mongoose.Schema({
         type: Number,
         required: true
     },
-    friends: [{
+    friends: {
         type: String,
-    }],
+    },
     imageName: {
         type: String,
     }
 });
+
+
 
 
 module.exports = mongoose.model("AUTH", auth);

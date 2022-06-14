@@ -6,7 +6,7 @@ const { signup, login, addfriend } = require('../logic/auth_logic');
 router.post('/signup', signup);
 router.post('/login', login);
 
-router.post('/addfried', addfriend);
+router.post('/addFriend', addfriend);
 
 
 

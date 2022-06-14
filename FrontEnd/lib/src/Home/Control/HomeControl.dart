@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:chat/businesslogic/UserData/UserData_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -8,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scan/scan.dart';
 
 import '../../../DependentPlugins.dart';
+import '../../../constants/Constants.dart';
 class HomeControl{
   final state;
   HomeControl(this.state);
@@ -20,7 +23,7 @@ class HomeControl{
             content: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                IconButton(onPressed: _cameraScanner(state.context), icon: const Icon(FontAwesomeIcons.camera) , color: Colors.deepPurple.shade900, splashColor: Colors.deepPurple.shade700),
+                IconButton(onPressed: ()=>_cameraScanner(state.context), icon: const Icon(FontAwesomeIcons.camera) , color: Colors.deepPurple.shade900, splashColor: Colors.deepPurple.shade700),
                 IconButton(onPressed: _imageScanner, icon: const Icon(FontAwesomeIcons.images) , color: Colors.deepPurple.shade900, splashColor: Colors.deepPurple.shade700,)
               ],
             ),
@@ -28,6 +31,7 @@ class HomeControl{
         }
     );
   }
+
 
 
  _cameraScanner(BuildContext context) {
@@ -39,8 +43,13 @@ class HomeControl{
           "email" : context.read<UserDataCubit>().getUserData().email,
           "friendEmail" : value,
         };
-        Response response = await HttpPost("auth/addfried" , postData);
-      }));
+        Response response = await HttpPost("auth/addFriend" , postData);
+        Map body = jsonDecode(response.body);
+        if(response.statusCode == Status_success){
+          print(body);
+        }
+
+      }),);
     } catch (e) {
      print(e);
     }

@@ -8,6 +8,10 @@ module.exports = (io) => {
             console.log(msg);
 
         });
+        socket.on("firstTime", (id) => {
+            console.log(id);
+            clients[id] = socket;
+        });
 
         socket.on("message", (msg) => {
             console.log(msg);
