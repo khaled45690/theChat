@@ -1,4 +1,3 @@
-import 'package:chat/src/QRcodes/Qrcode.dart';
 import 'package:chat/src/SplashScreen/SpashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +23,7 @@ class Chat extends StatelessWidget {
     return MaterialApp(
       title: 'Chat',
       theme: ThemeData(),
-      home:  Qrcodescreen(),
+      home:  SplashScreen(),
     );
   }
 }

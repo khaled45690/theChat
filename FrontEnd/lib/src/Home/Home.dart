@@ -5,6 +5,8 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../CommonStyle.dart';
 import '../../businesslogic/socket/socket_cubit.dart';
+import 'Control/HomeControl.dart';
+import 'Widgets/CustomDrawer.dart';
 import 'Widgets/HomeAppBar.dart';
 import 'Widgets/FloatingButton.dart';
 import 'Widgets/MessageRoomsLayout.dart';
@@ -17,8 +19,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late HomeControl homeControl;
+  String qrcodeResult = "";
   @override
   initState(){
+    homeControl = HomeControl(this);
     super.initState();
     print("entered");
     context.read<SocketCubit>().connect();
@@ -32,9 +37,9 @@ class _HomeState extends State<Home> {
           builder: (BuildContext context, state) {
             return Scaffold(
               extendBodyBehindAppBar: true,
-              drawer: Container(),
+              drawer: CustomDrawer(),
               appBar: HomeAppBar(),
-              floatingActionButton: FloatingButton(),
+              floatingActionButton: FloatingButton(homeControl.addFriend),
               body: Container(
                 decoration: scaffoldDecoration,
                 child: Column(

@@ -23,8 +23,10 @@ const auth = mongoose.Schema({
     },
     friends: [{
         type: String,
-    }]
-
+    }],
+    imageName: {
+        type: String,
+    }
 });
 
 

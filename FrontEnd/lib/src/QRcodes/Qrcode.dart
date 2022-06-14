@@ -26,7 +26,7 @@ class _QrcodescreenState extends State<Qrcodescreen> {
                 },
                 child: Text("Read Qr code")),
             ElevatedButton(onPressed: () {
-                              navigateTo(context, CreateQRcode());
+                              navigateTo(context, CreateQRcode("khaled the great"));
             }, child: Text("Create Qr code")),
           ],
         ),

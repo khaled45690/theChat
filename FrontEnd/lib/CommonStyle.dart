@@ -12,7 +12,7 @@ BoxDecoration scaffoldDecoration = const BoxDecoration(
     ],
   ),
 );
-
+Color mainTextColor = const Color(0xffC89FEB);
  snackBar(text , context) {
    SnackBar snackBar =  SnackBar(
       content: Text(

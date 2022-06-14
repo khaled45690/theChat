@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const {signup, login,getUsers,addfriend}=require('../logic/auth_logic');
+const { signup, login, addfriend } = require('../logic/auth_logic');
 
 
-router.post('/signup',signup);
-router.post('/login',login);
+router.post('/signup', signup);
+router.post('/login', login);
 
-router.get('/getusers',getUsers);
-router.post('/addfried/:did',addfriend);
-
-
+router.post('/addfried', addfriend);
 
 
 
 
-module.exports =router;
+
+
+module.exports = router;

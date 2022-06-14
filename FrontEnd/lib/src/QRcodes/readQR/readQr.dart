@@ -36,6 +36,7 @@ class _ReadQRState extends State<ReadQR> {
 
   Future<void> scanner() async {
     try {
+
       FlutterBarcodeScanner.scanBarcode("#2A99CF", "cancel", true, ScanMode.QR)
           .then(((value) {
         setState(() {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../../CommonStyle.dart';
 Size size = Size(100, 100);
 class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
   const HomeAppBar({Key? key}) : super(key: key);
@@ -10,7 +12,7 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
 
       backgroundColor: Colors.transparent, shadowColor: Colors.transparent, elevation:0,
       leading: IconButton(
-        icon: Icon(FontAwesomeIcons.alignJustify , color: Color(0xffC89FEB)),
+        icon: Icon(FontAwesomeIcons.alignJustify , color: mainTextColor),
         onPressed: () => Scaffold.of(context).openDrawer(),
       ),
       actions: [
@@ -18,8 +20,8 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
           margin: EdgeInsets.only(right: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
-              Text("Chat" , style: TextStyle(fontSize: 35 ,  color: Color(0xffC89FEB), fontFamily: "VLADIMIR" , fontWeight: FontWeight.w300),),
+            children:  [
+              Text("Chat" , style: TextStyle(fontSize: 35 ,  color: mainTextColor, fontFamily: "VLADIMIR" , fontWeight: FontWeight.w300),),
             ],
           ),
         ),

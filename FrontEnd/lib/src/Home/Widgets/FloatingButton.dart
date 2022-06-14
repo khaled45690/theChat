@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FloatingButton extends StatelessWidget {
-  const FloatingButton({Key? key}) : super(key: key);
+  final Function() onPress;
+  const FloatingButton(this.onPress);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class FloatingButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(200.0),
         ),
         height: 60,
-        onPressed: () {},
+        onPressed: onPress,
         child: Icon(FontAwesomeIcons.plus , size: 30 , color: Colors.deepPurple.shade700),
       ),
     );
