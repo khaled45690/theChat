@@ -39,22 +39,3 @@ module.exports = async (req, res) => {
 
     }
 }
-// {
-//     "62a783b2c99e369c9d26ae27" : {
-//         "62a8f20434b76854a82a7a92" : ["messages"]
-//     },
-
-//     "62a8f20434b76854a82a7a92" : {
-//         "62a783b2c99e369c9d26ae27" : ["messages"] ,
-//         "62a8f20434b76854a82a7a92" : ["messages"] ,
-//         "62a8f20434b76854a82a7a92" : ["messages"] ,
-//         "62a8f20434b76854a82a7a92" : ["messages"] ,
-//     },
-// }
-
-
-// {
-//     "userId" : {
-//         "friendId" : ["messages"],
-//     }
-// }

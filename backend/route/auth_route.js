@@ -9,8 +9,4 @@ router.post('/login', login);
 router.post('/addFriend', addfriend);
 
 
-
-
-
-
 module.exports = router;

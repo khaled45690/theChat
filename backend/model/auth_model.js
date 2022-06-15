@@ -1,27 +1,5 @@
 const mongoose = require('mongoose');
 
-
-var friendsInfoSchema = mongoose.Schema({
-    _id: {
-        type: String,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    imageName: {
-        type: String,
-    },
-    message: {
-        type: Array,
-    }
-});
-const friendsSchema = mongoose.Schema({
-    id: {
-        type: friendsInfoSchema,
-    },
-});
-
 var auth = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: {
@@ -46,9 +24,15 @@ var auth = mongoose.Schema({
     friends: {
         type: String,
     },
+    chatOrder: {
+        type: Array,
+    },
     imageName: {
         type: String,
     }
+}, {
+
+    versionKey: false // no key __v will be set by default
 });
 
 

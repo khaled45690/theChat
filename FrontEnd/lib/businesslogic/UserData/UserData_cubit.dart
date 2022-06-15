@@ -24,6 +24,7 @@ class UserDataCubit extends Cubit<UserDataState> {
   SharedPreferences? prefs;
 
   // initialize UserData
+  Map userDataMap = UserData().toMap();
   UserData _userData = UserData();
 
   UserData getUserData(){
@@ -33,7 +34,8 @@ class UserDataCubit extends Cubit<UserDataState> {
   setUserData(UserData userData)async{
     SharedPreferences prefs = await _prefs;
     _userData = userData;
-    prefs.setString("UserData" , jsonEncode(_userData.toMap()));
+    userDataMap = _userData.toMap();
+    prefs.setString("UserData" , jsonEncode(userDataMap));
   }
  setPrefs()async{
     prefs = await _prefs;
@@ -44,6 +46,7 @@ class UserDataCubit extends Cubit<UserDataState> {
     if(userDataString == null) return null;
 
     Map data = jsonDecode(prefs!.getString("UserData")!);
+    userDataMap = data;
     _userData.fromMap(data);
     return _userData;
   }

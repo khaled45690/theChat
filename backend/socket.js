@@ -1,3 +1,5 @@
+const addFriend = require('./socketFuntions/addFriend')
+
 var clients = {};
 
 module.exports = (io) => {
@@ -19,5 +21,16 @@ module.exports = (io) => {
             // if (clients[Receiver])
             //     clients[Receiver].emit("message", msg);
         });
+
+        socket.on("addFriend", (msg) => addFriend(msg, clients));
+
+
+        // {
+        //     console.log(msg);
+        //     let Receiver = msg.Receiver;
+        //     // if (clients[Receiver])
+        //     //     clients[Receiver].emit("message", msg);
+        // }
+
     });
 }

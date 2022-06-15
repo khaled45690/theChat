@@ -39,9 +39,9 @@ class SocketCubit extends Cubit<SocketStates> {
 
     // in case of connect print "tnen tnen asa7by we mesh 73'ayarha"
     _socket!.onConnect((data) {
-      print("omar is more tnen than you ya sa7by but he faces some Psychological problems xd");
+      print("socket is connected successfully");
     });
-    print(socket!.connected);
+    socket?.on("addFriend", (data) => {print(data)});
     socket!.emit("/test", "hello");
     // 
     emit(SocketConnect());

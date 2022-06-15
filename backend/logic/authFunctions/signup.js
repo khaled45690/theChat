@@ -46,6 +46,9 @@ saveUserData = async (req, res, hash, token) => {
     try {
         req.body["_id"] = mongoose.Types.ObjectId();
         req.body["password"] = hash;
+        req.body["friends"] = JSON.stringify({});
+        req.body["chatOrder"] = [];
+        req.body["imageName"] = null;
         const auth = await new Auth(req.body).save();
         auth.token = token
         res.status(200);

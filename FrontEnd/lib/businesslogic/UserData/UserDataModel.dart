@@ -7,6 +7,9 @@
   String? password;
   String? imageName;
   String? token;
+  String? friends;
+  List? chatOrder;
+
   UserData();
   Map toMap(){
     Map signIn = {
@@ -15,6 +18,8 @@
       "email"  : email,
       "password" : password,
       "token" : token,
+      "friends":friends,
+      "chatOrder":chatOrder
     };
     return signIn;
   }
@@ -26,6 +31,8 @@
     password = Data["password"];
     imageName = Data["imageName"];
     token = Data["token"];
+    friends = Data["friends"];
+    chatOrder = Data["chatOrder"];
   }
 
 

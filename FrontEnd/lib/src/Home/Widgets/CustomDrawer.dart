@@ -20,7 +20,7 @@ class CustomDrawer extends StatelessWidget {
         children: [
           SizedBox(height:40),
           _DrawerElement(FontAwesomeIcons.edit ,"Edit Profile Data" , () => _Navigator(context , Container())),
-          _DrawerElement(FontAwesomeIcons.qrcode ,"Generate Qr code" , ()=> _Navigator(context , CreateQRcode(context.read<UserDataCubit>().getUserData().email!))),
+          _DrawerElement(FontAwesomeIcons.qrcode ,"Generate Qr code" , ()=> _Navigator(context , CreateQRcode(context.read<UserDataCubit>().getUserData().id!))),
         ],
       ),
 

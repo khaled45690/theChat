@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scan/scan.dart';
 
 import '../../../DependentPlugins.dart';
+import '../../../businesslogic/socket/socket_cubit.dart';
 import '../../../constants/Constants.dart';
 class HomeControl{
   final state;
@@ -40,14 +41,15 @@ class HomeControl{
       FlutterBarcodeScanner.scanBarcode("#2A99CF", "cancel", true, ScanMode.QR)
           .then(((value) async {
         Map  postData = {
-          "email" : context.read<UserDataCubit>().getUserData().email,
-          "friendEmail" : value,
+          "userId" : context.read<UserDataCubit>().getUserData().id,
+          "friendId" : value,
         };
-        Response response = await HttpPost("auth/addFriend" , postData);
-        Map body = jsonDecode(response.body);
-        if(response.statusCode == Status_success){
-          print(body);
-        }
+        context.read<SocketCubit>().socket?.emit("addFriend" ,postData );
+        // Response response = await HttpPost("auth/addFriend" , postData);
+        // Map body = jsonDecode(response.body);
+        // if(response.statusCode == Status_success){
+        //   print(body);
+        // }
 
       }),);
     } catch (e) {
