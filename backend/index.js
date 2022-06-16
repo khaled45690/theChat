@@ -8,7 +8,6 @@ const AuthRouter = require('./route/auth_route');
 const user_check = require('./middleware/verify_user');
 const admin_check = require('./middleware/verify_admin');
 const socket = require('./socket');
-
 var http = require("http");
 var server = http.createServer(app);
 var io = require("socket.io")(server);
