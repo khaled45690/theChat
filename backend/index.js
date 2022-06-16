@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 const cors = require('cors');
 const port = 3050;
 const AuthRouter = require('./route/auth_route');
+const EditRouter = require('./route/edit_route');
+
 const user_check = require('./middleware/verify_user');
 const admin_check = require('./middleware/verify_admin');
 const socket = require('./socket');
@@ -31,6 +33,7 @@ app.use([bodyParser.urlencoded({ extended: true }), express.json(), express.urle
 app.use(cors());
 
 app.use('/auth', AuthRouter);
+app.use('/edit',EditRouter);
 
 socket(io);
 
