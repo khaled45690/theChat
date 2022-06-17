@@ -1,7 +1,7 @@
 import 'package:chat/src/SplashScreen/SpashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'businesslogic/UserData/UserCubit.dart';
+import 'businesslogic/UserData/UserBloc.dart';
 import 'businesslogic/socket/SocketCubit.dart';
 
 void main() {
@@ -9,8 +9,8 @@ void main() {
     BlocProvider<SocketCubit>(
       create: (BuildContext context) => SocketCubit(),
     ),
-    BlocProvider<UserCubit>(
-      create: (BuildContext context) => UserCubit(),
+    BlocProvider<UserBloc>(
+      create: (BuildContext context) => UserBloc(),
     ),
   ], child: const Chat()));
 }

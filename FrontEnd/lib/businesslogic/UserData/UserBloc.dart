@@ -7,17 +7,17 @@ import 'UserDataModel.dart';
 import 'UserData_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//here we create a cubit and pass abstract class that in state
-class UserCubit extends Bloc<UserDataState , UserData?> {
+                    //BlocStateListener  BlocStateType
+class UserBloc extends Bloc<UserDataState , UserData?> {
 
-  // pass the initState to super
-  UserCubit() : super(null);
+  // pass the initial value with super
+  UserBloc() : super(null);
 
 
 
   //create funcation to get object from cubit
   // must be static  to get it
-  static UserCubit get(BuildContext context) {
+  static UserBloc get(BuildContext context) {
     return BlocProvider.of(context);
   }
   late final Future<SharedPreferences> _prefs =  SharedPreferences.getInstance();

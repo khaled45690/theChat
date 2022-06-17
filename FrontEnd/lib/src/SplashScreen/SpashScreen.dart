@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../CommonStyle.dart';
 import '../../DependentPlugins.dart';
 import '../../businesslogic/UserData/UserDataModel.dart';
-import '../../businesslogic/UserData/UserCubit.dart';
+import '../../businesslogic/UserData/UserBloc.dart';
 import '../Registration/Registration.dart';
 import '../Registration/SignIn/SignIn.dart';
 
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   initState() {
     super.initState();
-    context.read<UserCubit>().setPrefs();
+    context.read<UserBloc>().setPrefs();
     Timer(Duration(seconds: 1), () {
       setState(() {
         width = 300;
@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   onEnd(){
     if(width == 0 && height == 0){
-      UserData? userData = context.read<UserCubit>().getUserDataFromPref();
+      UserData? userData = context.read<UserBloc>().getUserDataFromPref();
       Widget destination = userData == null ? const Registration(true) : const Home();
       navigateTo(context , destination);
     }

@@ -7,7 +7,7 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../CommonStyle.dart';
 import '../../businesslogic/UserData/UserDataModel.dart';
-import '../../businesslogic/UserData/UserCubit.dart';
+import '../../businesslogic/UserData/UserBloc.dart';
 import '../../businesslogic/UserData/UserData_state.dart';
 import '../../businesslogic/socket/SocketCubit.dart';
 import 'Control/HomeControl.dart';
@@ -31,8 +31,8 @@ class _HomeState extends State<Home> {
     super.initState();
     print("entered");
     context.read<SocketCubit>().connect();
-    context.read<SocketCubit>().socket!.emit("firstTime", context.read<UserCubit>().getUserData().id);
-    context.read<SocketCubit>().serContext(context);
+    context.read<SocketCubit>().socket!.emit("firstTime", context.read<UserBloc>().getUserData().id);
+    context.read<SocketCubit>().setContext(context);
 
   }
   @override
@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 decoration: scaffoldDecoration,
-                child: BlocBuilder<UserCubit, UserData?>(
+                child: BlocBuilder<UserBloc, UserData?>(
                   builder: (context , userData) {
                     Map friends = jsonDecode(userData!.friends!);
                     return Column(

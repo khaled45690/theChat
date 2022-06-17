@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 import '../../../../CommonStyle.dart';
 import '../../../../DependentPlugins.dart';
 import '../../../../businesslogic/UserData/UserDataModel.dart';
-import '../../../../businesslogic/UserData/UserCubit.dart';
+import '../../../../businesslogic/UserData/UserBloc.dart';
 import '../../../../constants/Constants.dart';
 import '../../../Home/Home.dart';
 
@@ -43,7 +43,7 @@ class SignInControl {
     if(response.statusCode == Status_success){
       UserData userData = UserData();
       userData.fromMap(responseData["userData"]);
-      context.read<UserCubit>().setUserData(userData);
+      context.read<UserBloc>().setUserData(userData);
       navigateTo(state.context , const Home());
     }else{
       snackBar(responseData["message"] , context);

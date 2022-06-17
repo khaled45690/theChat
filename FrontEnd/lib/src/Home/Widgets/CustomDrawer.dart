@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../CommonStyle.dart';
 import '../../../DependentPlugins.dart';
-import '../../../businesslogic/UserData/UserCubit.dart';
+import '../../../businesslogic/UserData/UserBloc.dart';
 import '../../QRcodes/createQR/CreateQR.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -20,7 +20,7 @@ class CustomDrawer extends StatelessWidget {
         children: [
           SizedBox(height:40),
           _DrawerElement(FontAwesomeIcons.edit ,"Edit Profile Data" , () => _Navigator(context , Container())),
-          _DrawerElement(FontAwesomeIcons.qrcode ,"Generate Qr code" , ()=> _Navigator(context , CreateQRcode(context.read<UserCubit>().getUserData().id!))),
+          _DrawerElement(FontAwesomeIcons.qrcode ,"Generate Qr code" , ()=> _Navigator(context , CreateQRcode(context.read<UserBloc>().getUserData().id!))),
         ],
       ),
 

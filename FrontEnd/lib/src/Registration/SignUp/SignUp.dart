@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../CommonStyle.dart';
-import '../../../businesslogic/UserData/UserCubit.dart';
+import '../../../businesslogic/UserData/UserBloc.dart';
 import '../CommonWidgets/Logo.dart';
 import '../CommonWidgets/RegistrationButton.dart';
 import '../CommonWidgets/TextButtonWidget.dart';
@@ -31,14 +31,14 @@ class _SignUpState extends State<SignUp> {
 
   void initState() {
     signUpControl = SignUpControl(this);
-    print(context.read<UserCubit>().getUserData().id);
+    print(context.read<UserBloc>().getUserData().id);
   }
 
 
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<UserCubit>());
+    print(context.read<UserBloc>());
     return Scaffold(
         body: SingleChildScrollView(
           child: Container(

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:chat/businesslogic/UserData/UserCubit.dart';
+import 'package:chat/businesslogic/UserData/UserBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,10 +43,10 @@ class HomeControl{
 
             if(value != "-1"){
               Map  postData = {
-                "userId" : context.read<UserCubit>().getUserData().id,
+                "userId" : context.read<UserBloc>().getUserData().id,
                 "friendId" : value,
               };
-              context.read<SocketCubit>().serContext(context);
+              context.read<SocketCubit>().setContext(context);
               context.read<SocketCubit>().socket?.emit("addFriend" ,postData );
             }
       }),);
@@ -76,10 +76,10 @@ class HomeControl{
 
   _sendAddFriend(BuildContext context, String friendId){
     Map  postData = {
-      "userId" : context.read<UserCubit>().getUserData().id,
+      "userId" : context.read<UserBloc>().getUserData().id,
       "friendId" : friendId,
     };
-    context.read<SocketCubit>().serContext(context);
+    context.read<SocketCubit>().setContext(context);
     context.read<SocketCubit>().socket?.emit("addFriend" ,postData );
   }
 }

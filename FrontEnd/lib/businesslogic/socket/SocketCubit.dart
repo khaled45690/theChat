@@ -47,7 +47,7 @@ class SocketCubit extends Cubit<IO.Socket?> {
     //
   }
 
-  serContext(BuildContext context){
+  setContext(BuildContext context){
     this.context = context;
   }
 }
