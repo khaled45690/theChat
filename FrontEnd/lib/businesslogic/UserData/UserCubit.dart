@@ -8,23 +8,22 @@ import 'UserData_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //here we create a cubit and pass abstract class that in state
-class UserDataCubit extends Cubit<UserDataState> {
+class UserCubit extends Bloc<UserDataState , UserData?> {
 
   // pass the initState to super
-  UserDataCubit() : super(UserDataINitState());
+  UserCubit() : super(null);
 
 
 
   //create funcation to get object from cubit
   // must be static  to get it
-  static UserDataCubit get(BuildContext context) {
+  static UserCubit get(BuildContext context) {
     return BlocProvider.of(context);
   }
-  late Future<SharedPreferences> _prefs =  SharedPreferences.getInstance();
+  late final Future<SharedPreferences> _prefs =  SharedPreferences.getInstance();
   SharedPreferences? prefs;
 
   // initialize UserData
-  Map userDataMap = UserData().toMap();
   UserData _userData = UserData();
 
   UserData getUserData(){
@@ -34,20 +33,18 @@ class UserDataCubit extends Cubit<UserDataState> {
   setUserData(UserData userData)async{
     SharedPreferences prefs = await _prefs;
     _userData = userData;
-    userDataMap = _userData.toMap();
-    prefs.setString("UserData" , jsonEncode(userDataMap));
+    prefs.setString("UserData" , jsonEncode(_userData.toMap()));
+    emit(_userData);
   }
  setPrefs()async{
     prefs = await _prefs;
 }
   UserData? getUserDataFromPref(){
-    print("entered");
     String? userDataString = prefs?.getString("UserData");
     if(userDataString == null) return null;
-
     Map data = jsonDecode(prefs!.getString("UserData")!);
-    userDataMap = data;
     _userData.fromMap(data);
+    emit(_userData);
     return _userData;
   }
 

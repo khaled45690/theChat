@@ -1,16 +1,16 @@
 import 'package:chat/src/SplashScreen/SpashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'businesslogic/UserData/UserData_cubit.dart';
-import 'businesslogic/socket/socket_cubit.dart';
+import 'businesslogic/UserData/UserCubit.dart';
+import 'businesslogic/socket/SocketCubit.dart';
 
 void main() {
   runApp(MultiBlocProvider(providers: [
     BlocProvider<SocketCubit>(
       create: (BuildContext context) => SocketCubit(),
     ),
-    BlocProvider<UserDataCubit>(
-      create: (BuildContext context) => UserDataCubit(),
+    BlocProvider<UserCubit>(
+      create: (BuildContext context) => UserCubit(),
     ),
   ], child: const Chat()));
 }

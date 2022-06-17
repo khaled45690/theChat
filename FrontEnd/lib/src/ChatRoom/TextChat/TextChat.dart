@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../CommonStyle.dart';
-import '../../../businesslogic/socket/socket_cubit.dart';
-import '../../../businesslogic/socket/socket_state.dart';
+import '../../../businesslogic/socket/SocketCubit.dart';
+import '../../../businesslogic/socket/SocketFunctions.dart';
 import 'Widgets/MessageSender.dart';
 import 'Widgets/Messages.dart';
 import 'Widgets/TextChatAppBar.dart';

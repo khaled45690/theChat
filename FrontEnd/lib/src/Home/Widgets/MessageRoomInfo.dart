@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MessageRoomInfo extends StatelessWidget {
-  const MessageRoomInfo({Key? key}) : super(key: key);
+  final Map friend;
+  const MessageRoomInfo(this.friend);
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +12,9 @@ class MessageRoomInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Name of User",
-            style: TextStyle(
+          Text(
+            friend["name"],
+            style: const TextStyle(
                 color: Colors.white60,
                 fontSize: 20,
                 fontWeight: FontWeight.w500),

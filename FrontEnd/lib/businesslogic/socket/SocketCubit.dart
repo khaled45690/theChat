@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:chat/businesslogic/socket/socket_state.dart';
+import 'package:chat/businesslogic/socket/SocketFunctions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -7,10 +7,10 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../constants/Constants.dart';
 
 //here we create a cubit and pass abstract class that in state
-class SocketCubit extends Cubit<SocketStates> {
+class SocketCubit extends Cubit<IO.Socket?> {
 
   // pass the initState to super
-  SocketCubit() : super(SocketINitState());
+  SocketCubit() : super(null);
 
 
 
@@ -20,6 +20,7 @@ class SocketCubit extends Cubit<SocketStates> {
     return BlocProvider.of(context);
   }
 
+  BuildContext? context;
   // initialize the socket
   IO.Socket? _socket;
 
@@ -41,9 +42,12 @@ class SocketCubit extends Cubit<SocketStates> {
     _socket!.onConnect((data) {
       print("socket is connected successfully");
     });
-    socket?.on("addFriend", (data) => {print(data)});
+    socket?.on("addFriend", (data) => addFriend(context! , data));
     socket!.emit("/test", "hello");
-    // 
-    emit(SocketConnect());
+    //
+  }
+
+  serContext(BuildContext context){
+    this.context = context;
   }
 }

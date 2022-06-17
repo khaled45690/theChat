@@ -11,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../CommonStyle.dart';
 import '../../../../DependentPlugins.dart';
 import '../../../../businesslogic/UserData/UserDataModel.dart';
-import '../../../../businesslogic/UserData/UserData_cubit.dart';
+import '../../../../businesslogic/UserData/UserCubit.dart';
 import '../../../../constants/Constants.dart';
 import '../../../Home/Home.dart';
 
@@ -70,7 +70,7 @@ import '../../../Home/Home.dart';
        state.signUpData["confirmPassword"] = confirmPassword;
        UserData userData = UserData();
        userData.fromMap(responseData["userData"]);
-       context.read<UserDataCubit>().setUserData(userData);
+       context.read<UserCubit>().setUserData(userData);
        navigateTo(state.context , const Home());
      }else{
        state.signUpData["confirmPassword"] = confirmPassword;

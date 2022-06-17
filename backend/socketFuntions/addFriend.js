@@ -5,8 +5,12 @@ module.exports = async (msg, clients) => {
 
     const user = await Auth.findOne({ _id: msg.userId });
     const userNewFriend = await Auth.findOne({ _id: msg.friendId });
+
+
     var userFriends = JSON.parse(user.friends);
     var newFriendFriends = JSON.parse(userNewFriend.friends);
+
+
     if (userFriends[msg.friendId] == undefined) {
         userFriends[msg.friendId] = {
             "name": userNewFriend.name,
@@ -14,7 +18,10 @@ module.exports = async (msg, clients) => {
             "message": [],
         }
         user.friends = JSON.stringify(userFriends);
+        user.chatOrder.push(msg.friendId);
     }
+
+
 
     if (newFriendFriends[msg.userId] == undefined) {
         newFriendFriends[msg.userId] = {
@@ -22,9 +29,11 @@ module.exports = async (msg, clients) => {
             "imageName": user.imageName,
             "message": [],
         };
-
         userNewFriend.friends = JSON.stringify(newFriendFriends);
+        userNewFriend.chatOrder.push(msg.userId);
     }
+
+
 
     Auth.findOneAndUpdate({ _id: user._id }, user, (err, result) => {
         if (result != null) {
@@ -36,6 +45,8 @@ module.exports = async (msg, clients) => {
             if (clients[userNewFriend._id]) clients[userNewFriend._id].emit("addFriend", userNewFriend);
         }
     });
+
+
     console.log(user);
     console.log(userNewFriend);
 

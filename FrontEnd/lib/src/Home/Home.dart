@@ -1,14 +1,15 @@
 import 'dart:convert';
 
-import 'package:chat/businesslogic/socket/socket_state.dart';
+import 'package:chat/businesslogic/socket/SocketFunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../CommonStyle.dart';
-import '../../businesslogic/UserData/UserData_cubit.dart';
+import '../../businesslogic/UserData/UserDataModel.dart';
+import '../../businesslogic/UserData/UserCubit.dart';
 import '../../businesslogic/UserData/UserData_state.dart';
-import '../../businesslogic/socket/socket_cubit.dart';
+import '../../businesslogic/socket/SocketCubit.dart';
 import 'Control/HomeControl.dart';
 import 'Widgets/CustomDrawer.dart';
 import 'Widgets/HomeAppBar.dart';
@@ -24,46 +25,42 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late HomeControl homeControl;
-  String qrcodeResult = "";
-  late Map friends ;
   @override
   initState(){
     homeControl = HomeControl(this);
     super.initState();
     print("entered");
     context.read<SocketCubit>().connect();
-    context.read<SocketCubit>().socket!.emit("firstTime", context.read<UserDataCubit>().getUserData().id);
-    friends = jsonDecode(context.read<UserDataCubit>().userDataMap["friends"]);
-    print(friends.length);
+    context.read<SocketCubit>().socket!.emit("firstTime", context.read<UserCubit>().getUserData().id);
+    context.read<SocketCubit>().serContext(context);
+
   }
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => SocketCubit(),
-      child: BlocBuilder<SocketCubit, SocketStates>(
-          builder: (BuildContext context, state) {
-            return Scaffold(
+    return Scaffold(
               extendBodyBehindAppBar: true,
               drawer: CustomDrawer(),
               appBar: HomeAppBar(),
               floatingActionButton: FloatingButton(homeControl.addFriend),
               body: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 decoration: scaffoldDecoration,
-                child: BlocBuilder<UserDataCubit, UserDataState>(
-                  builder: (context , count) {
+                child: BlocBuilder<UserCubit, UserData?>(
+                  builder: (context , userData) {
+                    Map friends = jsonDecode(userData!.friends!);
                     return Column(
                       children: [
                         const SizedBox(
                           height: 100,
                         ),
-                        for(int i = 0 ; i < friends.length ; i++)
-                        MessageRoomsLayout(),
+                        for(int i = friends.length - 1 ; i > -1 ; i--)
+                        MessageRoomsLayout(friends[userData.chatOrder![i]]),
                       ],
                     );
                   }
                 ),
               ),
             );
-          }),);
   }
 }

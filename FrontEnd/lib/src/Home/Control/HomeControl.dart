@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:chat/businesslogic/UserData/UserData_cubit.dart';
+import 'package:chat/businesslogic/UserData/UserCubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:scan/scan.dart';
 
 import '../../../DependentPlugins.dart';
-import '../../../businesslogic/socket/socket_cubit.dart';
+import '../../../businesslogic/socket/SocketCubit.dart';
 import '../../../constants/Constants.dart';
 class HomeControl{
   final state;
@@ -25,7 +25,7 @@ class HomeControl{
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(onPressed: ()=>_cameraScanner(state.context), icon: const Icon(FontAwesomeIcons.camera) , color: Colors.deepPurple.shade900, splashColor: Colors.deepPurple.shade700),
-                IconButton(onPressed: _imageScanner, icon: const Icon(FontAwesomeIcons.images) , color: Colors.deepPurple.shade900, splashColor: Colors.deepPurple.shade700,)
+                IconButton(onPressed:  ()=> _imageScanner(state.context), icon: const Icon(FontAwesomeIcons.images) , color: Colors.deepPurple.shade900, splashColor: Colors.deepPurple.shade700,)
               ],
             ),
           );
@@ -40,17 +40,15 @@ class HomeControl{
       Navigator.of(context).pop();
       FlutterBarcodeScanner.scanBarcode("#2A99CF", "cancel", true, ScanMode.QR)
           .then(((value) async {
-        Map  postData = {
-          "userId" : context.read<UserDataCubit>().getUserData().id,
-          "friendId" : value,
-        };
-        context.read<SocketCubit>().socket?.emit("addFriend" ,postData );
-        // Response response = await HttpPost("auth/addFriend" , postData);
-        // Map body = jsonDecode(response.body);
-        // if(response.statusCode == Status_success){
-        //   print(body);
-        // }
 
+            if(value != "-1"){
+              Map  postData = {
+                "userId" : context.read<UserCubit>().getUserData().id,
+                "friendId" : value,
+              };
+              context.read<SocketCubit>().serContext(context);
+              context.read<SocketCubit>().socket?.emit("addFriend" ,postData );
+            }
       }),);
     } catch (e) {
      print(e);
@@ -58,7 +56,7 @@ class HomeControl{
   }
 
 
-  _imageScanner() async {
+  _imageScanner(BuildContext context) async {
     Navigator.of(state.context).pop();
     final ImagePicker _picker = ImagePicker();
     try {
@@ -66,14 +64,22 @@ class HomeControl{
           source: ImageSource.gallery,
           imageQuality: 100
       );
-      String? result = await Scan.parse(pickedFile!.path);
-      print(result == null);
-      print("------------------------------------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-      // state.setState(() {
-      //   state.qrcodeResult = result;
-      // });
+      String? friendId = await Scan.parse(pickedFile!.path);
+
+
+
+      if(friendId != null) _sendAddFriend(context , friendId);
     }catch(e){
       print(e);
     }
+  }
+
+  _sendAddFriend(BuildContext context, String friendId){
+    Map  postData = {
+      "userId" : context.read<UserCubit>().getUserData().id,
+      "friendId" : friendId,
+    };
+    context.read<SocketCubit>().serContext(context);
+    context.read<SocketCubit>().socket?.emit("addFriend" ,postData );
   }
 }

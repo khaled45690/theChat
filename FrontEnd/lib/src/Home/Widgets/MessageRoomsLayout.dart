@@ -5,7 +5,8 @@ import '../../ChatRoom/ChatRoom.dart';
 import 'Avatar.dart';
 import 'MessageRoomInfo.dart';
 class MessageRoomsLayout extends StatelessWidget {
-  const MessageRoomsLayout({Key? key}) : super(key: key);
+  final Map friend;
+  const MessageRoomsLayout(this.friend);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,9 @@ class MessageRoomsLayout extends StatelessWidget {
           navigateTo(context , const ChatRoom());
         },
         child: Row(
-          children: const [
+          children: [
             Avatar(),
-            MessageRoomInfo()
+            MessageRoomInfo(friend)
           ],
         ),
       ),
