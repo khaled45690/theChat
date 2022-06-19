@@ -1,14 +1,12 @@
+// ignore_for_file: file_names, prefer_const_constructors
+
 import 'dart:convert';
 
-import 'package:chat/businesslogic/socket/SocketFunctions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:socket_io_client/socket_io_client.dart';
-
 import '../../CommonStyle.dart';
 import '../../businesslogic/UserData/UserDataModel.dart';
 import '../../businesslogic/UserData/UserBloc.dart';
-import '../../businesslogic/UserData/UserData_state.dart';
 import '../../businesslogic/socket/SocketCubit.dart';
 import 'Control/HomeControl.dart';
 import 'Widgets/CustomDrawer.dart';
@@ -29,7 +27,6 @@ class _HomeState extends State<Home> {
   initState(){
     homeControl = HomeControl(this);
     super.initState();
-    print("entered");
     context.read<SocketCubit>().connect();
     context.read<SocketCubit>().socket!.emit("firstTime", context.read<UserBloc>().getUserData().id);
     context.read<SocketCubit>().setContext(context);

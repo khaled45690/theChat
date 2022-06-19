@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_const_constructors
+
 import 'package:chat/src/ChatRoom/VideoChat/VideoChat.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,7 +29,7 @@ class TextChatAppBar extends StatelessWidget  with PreferredSizeWidget{
                 onPressed: (){ Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const VideoChat()),
-                );}, icon: const Icon(FontAwesomeIcons.videoCamera , color: Colors.deepPurpleAccent,) , splashColor: Colors.deepPurpleAccent ,),
+                );}, icon: const Icon(FontAwesomeIcons.video , color: Colors.deepPurpleAccent,) , splashColor: Colors.deepPurpleAccent ,),
               IconButton(onPressed: (){}, icon: const Icon(FontAwesomeIcons.phone , color: Colors.deepPurpleAccent, ) , splashColor: Colors.deepPurpleAccent),
 
             ],

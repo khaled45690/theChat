@@ -1,17 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// ignore_for_file: file_names, prefer_const_constructors
 
+import 'package:flutter/material.dart';
 import '../../../CommonStyle.dart';
-import '../../../businesslogic/UserData/UserBloc.dart';
 import '../CommonWidgets/Logo.dart';
 import '../CommonWidgets/RegistrationButton.dart';
 import '../CommonWidgets/TextButtonWidget.dart';
-import '../SignIn/widgets/TextFields.dart';
 import 'Control/SignUpControl.dart';
 import 'Model/SignUpModel.dart';
-import 'Model/userSignApi.dart';
 import 'Widgets/InfoTextFields.dart';
-import 'Widgets/PickImage.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -29,16 +25,16 @@ class _SignUpState extends State<SignUp> {
 
 
 
+  @override
   void initState() {
+    super.initState();
     signUpControl = SignUpControl(this);
-    print(context.read<UserBloc>().getUserData().id);
   }
 
 
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<UserBloc>());
     return Scaffold(
         body: SingleChildScrollView(
           child: Container(

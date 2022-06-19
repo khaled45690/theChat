@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_const_constructors, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,7 +21,7 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height:40),
-          _DrawerElement(FontAwesomeIcons.edit ,"Edit Profile Data" , () => _Navigator(context , Container())),
+          _DrawerElement(FontAwesomeIcons.penToSquare ,"Edit Profile Data" , () => _Navigator(context , Container())),
           _DrawerElement(FontAwesomeIcons.qrcode ,"Generate Qr code" , ()=> _Navigator(context , CreateQRcode(context.read<UserBloc>().getUserData().id!))),
         ],
       ),

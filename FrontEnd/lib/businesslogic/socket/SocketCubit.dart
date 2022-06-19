@@ -1,4 +1,5 @@
-import 'package:bloc/bloc.dart';
+// ignore_for_file: file_names, library_prefixes, unnecessary_string_interpolations
+
 import 'package:chat/businesslogic/socket/SocketFunctions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class SocketCubit extends Cubit<IO.Socket?> {
 
   // fucation to connect to server
   void connect() {
-    _socket = IO.io("${serverURL}", <String, dynamic>{
+    _socket = IO.io("$serverURL", <String, dynamic>{
       "transports": ["websocket"],
       //it's better to make it false and connect to server manually
       "autoConnect": false,
@@ -40,7 +41,7 @@ class SocketCubit extends Cubit<IO.Socket?> {
 
     // in case of connect print "tnen tnen asa7by we mesh 73'ayarha"
     _socket!.onConnect((data) {
-      print("socket is connected successfully");
+
     });
     socket?.on("addFriend", (data) => addFriend(context! , data));
     socket!.emit("/test", "hello");

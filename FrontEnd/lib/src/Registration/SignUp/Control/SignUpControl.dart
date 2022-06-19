@@ -1,13 +1,12 @@
-import 'dart:convert';
-import 'dart:ffi';
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously
 
+import 'dart:convert';
 import 'package:chat/src/Registration/SignIn/SignIn.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../../CommonStyle.dart';
 import '../../../../DependentPlugins.dart';
 import '../../../../businesslogic/UserData/UserDataModel.dart';
@@ -35,9 +34,9 @@ import '../../../Home/Home.dart';
 
 
    pickImage()async {
-     final ImagePicker _picker = ImagePicker();
+     final ImagePicker picker = ImagePicker();
      try {
-       final XFile? pickedFile = await _picker.pickImage(
+       final XFile? pickedFile = await picker.pickImage(
            source: ImageSource.gallery,
            imageQuality: 60
        );
@@ -46,7 +45,7 @@ import '../../../Home/Home.dart';
          state.signUpDataError["imageName"] = null;
        });
      }catch(e){
-       print(e);
+       snackBar(state.context , e.toString());
      }
    }
 
@@ -66,7 +65,7 @@ import '../../../Home/Home.dart';
      state.signUpData.remove("confirmPassword");
      Response response = await HttpPost("auth/signup",state.signUpData);
      Map responseData = jsonDecode(response.body);
-     if(response.statusCode == Status_success){
+     if(response.statusCode == statusSuccess){
        state.signUpData["confirmPassword"] = confirmPassword;
        UserData userData = UserData();
        userData.fromMap(responseData["userData"]);
@@ -98,7 +97,6 @@ import '../../../Home/Home.dart';
 
      RegExp alphanumeric = RegExp(r'^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$');
      gmailCheck = alphanumeric.hasMatch(state.signUpData["email"]);
-     print(!gmailCheck) ;
      if(!gmailCheck){
        state.setState(() {
          state.signUpDataError["email"] = "please enter gmail account";
@@ -112,7 +110,6 @@ import '../../../Home/Home.dart';
    bool _unMatchPassword(){
      bool unMatchPassword;
      unMatchPassword = state.signUpData["password"] == state.signUpData["confirmPassword"];
-     print(!unMatchPassword) ;
      if(!unMatchPassword){
        state.setState(() {
          state.signUpDataError["password"] = "please make sure password match confirm password";

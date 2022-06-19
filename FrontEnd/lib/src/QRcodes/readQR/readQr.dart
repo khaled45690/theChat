@@ -1,7 +1,6 @@
-import 'package:barcode_widget/barcode_widget.dart';
+// ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class ReadQR extends StatefulWidget {

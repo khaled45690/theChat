@@ -1,6 +1,7 @@
+// ignore_for_file: file_names
+
 import 'package:chat/src/Registration/SignIn/Control/SignInControl.dart';
 import 'package:chat/src/Registration/SignIn/widgets/TextFields.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../CommonStyle.dart';
@@ -28,8 +29,8 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
+    super.initState();
     signInControl = SignInControl(this);
-    loginData.keys.forEach((key) {print(key);});
 
   }
 
@@ -48,7 +49,7 @@ class _SignInState extends State<SignIn> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Logo("Sign In"),
-            TextFields(signInControl.visibiltyChange, signInControl.onChange,
+            TextFields(signInControl.visibilityChange, signInControl.onChange,
                 loginData , loginDataError, isHidden),
             SizedBox(height: (MediaQuery.of(context).size.height / 5.5)),
             RegistrationButton(

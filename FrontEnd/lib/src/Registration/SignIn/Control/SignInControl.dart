@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, non_constant_identifier_names, use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:chat/src/Registration/SignUp/SignUp.dart';
@@ -13,9 +15,9 @@ import '../../../../constants/Constants.dart';
 import '../../../Home/Home.dart';
 
 class SignInControl {
-  var state;
+  final state;
   SignInControl(this.state);
-  visibiltyChange() {
+  visibilityChange() {
     state.setState(() {
       state.isHidden = !state.isHidden;
     });
@@ -39,8 +41,7 @@ class SignInControl {
 
     Response response = await HttpPost("auth/login",state.loginData);
     Map responseData = jsonDecode(response.body);
-    print(responseData);
-    if(response.statusCode == Status_success){
+    if(response.statusCode == statusSuccess){
       UserData userData = UserData();
       userData.fromMap(responseData["userData"]);
       context.read<UserBloc>().setUserData(userData);

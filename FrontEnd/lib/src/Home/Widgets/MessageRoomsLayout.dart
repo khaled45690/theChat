@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../../../DependentPlugins.dart';
@@ -20,7 +22,7 @@ class MessageRoomsLayout extends StatelessWidget {
         splashColor: Colors.deepPurpleAccent.shade400.withOpacity(0.2),
         padding:  const EdgeInsets.only(top: 5 , bottom: 5),
         onPressed: (){
-          navigateTo(context , const ChatRoom());
+          navigateTo(context , ChatRoom(friend));
         },
         child: Row(
           children: [

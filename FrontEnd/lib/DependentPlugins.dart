@@ -1,5 +1,7 @@
 // this file has all the functions that may change in the future
 
+// ignore_for_file: file_names, non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';

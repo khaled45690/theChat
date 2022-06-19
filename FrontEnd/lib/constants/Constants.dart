@@ -1,15 +1,11 @@
-int Status_success = 200;
-int Status_failed = 404;
+// ignore_for_file: file_names
 
-// omar server
-// ana 3'ayart hna bel 3'lat
-//  String serverURL = "http://192.168.1.7:3050/";
-
-
+int statusSuccess = 200;
+int statusFailed = 404;
 
 // khaled saad
 
-String serverURL = "http://192.168.1.9:3050/";
+String serverURL = "http://192.168.1.2:3050/";
 
 
 int user = 0;

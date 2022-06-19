@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors
+
 import 'package:chat/DependentPlugins.dart';
 import 'package:chat/src/QRcodes/createQR/CreateQR.dart';
 import 'package:chat/src/QRcodes/readQR/readQr.dart';

@@ -1,17 +1,14 @@
-import 'dart:convert';
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, use_build_context_synchronously
 
 import 'package:chat/businesslogic/UserData/UserBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:scan/scan.dart';
-
-import '../../../DependentPlugins.dart';
+import '../../../CommonStyle.dart';
 import '../../../businesslogic/socket/SocketCubit.dart';
-import '../../../constants/Constants.dart';
 class HomeControl{
   final state;
   HomeControl(this.state);
@@ -51,16 +48,16 @@ class HomeControl{
             }
       }),);
     } catch (e) {
-     print(e);
+      snackBar(context , e.toString());
     }
   }
 
 
   _imageScanner(BuildContext context) async {
     Navigator.of(state.context).pop();
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     try {
-      final XFile? pickedFile = await _picker.pickImage(
+      final XFile? pickedFile = await picker.pickImage(
           source: ImageSource.gallery,
           imageQuality: 100
       );
@@ -70,7 +67,7 @@ class HomeControl{
 
       if(friendId != null) _sendAddFriend(context , friendId);
     }catch(e){
-      print(e);
+      snackBar(context , e.toString());
     }
   }
 

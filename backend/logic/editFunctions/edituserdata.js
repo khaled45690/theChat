@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
             client = docs
             console.log("client: ", client['name']);
             Auth.findOneAndUpdate({ _id: req.body.userId },
-                { $set: { name: req.body.name } }, { new: true }, function (err, docss) {
+                { $set: { name: req.body.name, imageName: req.body.imageName } }, { new: true }, function (err, docss) {
                     if (err) {
                         res.json({
                             message: "useriddd is not valied",

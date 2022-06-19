@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class TextfieldQr extends StatelessWidget {
   final ValueChanged<String>? onChanged;
-  TextfieldQr(this.onChanged);
+  const TextfieldQr(this.onChanged);
   @override
   Widget build(BuildContext context) {
     return Container(

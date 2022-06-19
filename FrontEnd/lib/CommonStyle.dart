@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 BoxDecoration scaffoldDecoration = const BoxDecoration(
@@ -12,7 +14,13 @@ BoxDecoration scaffoldDecoration = const BoxDecoration(
     ],
   ),
 );
+
+
+
 Color mainTextColor = const Color(0xffC89FEB);
+
+
+
  snackBar(text , context) {
    SnackBar snackBar =  SnackBar(
       content: Text(
@@ -23,6 +31,5 @@ Color mainTextColor = const Color(0xffC89FEB);
 }
 
 
-// "لقد قمت بتسجيل الدخول بنجاح"
 
 

@@ -1,15 +1,17 @@
+// ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../CommonStyle.dart';
 import '../../../businesslogic/socket/SocketCubit.dart';
-import '../../../businesslogic/socket/SocketFunctions.dart';
 import 'Widgets/MessageSender.dart';
 import 'Widgets/Messages.dart';
 import 'Widgets/TextChatAppBar.dart';
 
 class TextChat extends StatefulWidget {
-  const TextChat({Key? key}) : super(key: key);
+  final Map friend;
+  const TextChat(this.friend);
 
   @override
   State<TextChat> createState() => _TextChatState();
@@ -19,7 +21,7 @@ class _TextChatState extends State<TextChat> {
   ScrollController scrollController = ScrollController();
   @override
   initState(){
-    print("object");
+    super.initState();
     context.read<SocketCubit>().socket!.emit("message", "message");
   }
   bool expand = true;
@@ -37,7 +39,7 @@ class _TextChatState extends State<TextChat> {
         child: Stack(
           children: [
 
-            Container(
+            SizedBox(
               height:MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
                 controller: scrollController,

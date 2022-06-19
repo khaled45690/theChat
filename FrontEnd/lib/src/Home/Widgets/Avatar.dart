@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 class Avatar extends StatelessWidget {
   const Avatar({Key? key}) : super(key: key);
@@ -11,7 +13,7 @@ class Avatar extends StatelessWidget {
       padding: EdgeInsets.zero,
       decoration: BoxDecoration(
         image: DecorationImage(image: Image.asset("assets/unknownAvatar.jpg").image),
-        borderRadius: BorderRadius.all(Radius.circular(100)),
+        borderRadius: const BorderRadius.all( Radius.circular(100)),
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

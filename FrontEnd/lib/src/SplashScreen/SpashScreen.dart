@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unused_import, prefer_const_constructors
+
 import 'dart:async';
 
 import 'package:chat/src/Home/Home.dart';
@@ -9,7 +11,7 @@ import '../../DependentPlugins.dart';
 import '../../businesslogic/UserData/UserDataModel.dart';
 import '../../businesslogic/UserData/UserBloc.dart';
 import '../Registration/Registration.dart';
-import '../Registration/SignIn/SignIn.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -39,33 +41,28 @@ class _SplashScreenState extends State<SplashScreen> {
       height: MediaQuery.of(context).size.height,
       decoration: scaffoldDecoration,
       child: Center(
-        child: AnimatedContainer(
-          onEnd: onEnd,
-          width: width,
-          height: height,
-          duration: Duration(seconds: 2),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: Image.asset("assets/ChatLogo.png").image),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedContainer(
+              onEnd: onEnd,
+              width: width,
+              height: height,
+              duration: Duration(seconds: 3),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: Image.asset("assets/ChatLogo.png").image),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   onEnd(){
-    if(width == 0 && height == 0){
-      UserData? userData = context.read<UserBloc>().getUserDataFromPref();
-      Widget destination = userData == null ? const Registration(true) : const Home();
-      navigateTo(context , destination);
-    }
-    Timer(Duration(seconds: 1), () {
-      setState(() {
-        width = 0;
-        height = 0;
-      });
-    });
-
-
+    UserData? userData = context.read<UserBloc>().getUserDataFromPref();
+    Widget destination = userData == null ? const Registration(true) : const Home();
+    navigateTo(context , destination);
   }
 }

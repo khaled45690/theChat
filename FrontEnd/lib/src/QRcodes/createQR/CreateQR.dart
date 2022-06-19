@@ -1,6 +1,6 @@
+// ignore_for_file: file_names, use_key_in_widget_constructors
+
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:chat/src/QRcodes/createQR/widgets/BarcodeWidget.dart';
-import 'package:chat/src/QRcodes/createQR/widgets/TextfieldofQr.dart';
 import 'package:flutter/material.dart';
 
 import '../../../CommonStyle.dart';
