@@ -5,24 +5,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../CommonStyle.dart';
 import '../../../businesslogic/socket/SocketCubit.dart';
+import 'Control/TextChatControl.dart';
 import 'Widgets/MessageSender.dart';
 import 'Widgets/Messages.dart';
 import 'Widgets/TextChatAppBar.dart';
 
 class TextChat extends StatefulWidget {
   final Map friend;
-  const TextChat(this.friend);
+  final String friendId;
+  const TextChat(this.friend, this.friendId);
 
   @override
-  State<TextChat> createState() => _TextChatState();
+  State<TextChat> createState() => TextChatState();
 }
 
-class _TextChatState extends State<TextChat> {
+class TextChatState extends State<TextChat> {
+  late TextChatControl textChatControl ;
   ScrollController scrollController = ScrollController();
+  TextEditingController messageController = TextEditingController();
   @override
   initState(){
     super.initState();
     context.read<SocketCubit>().socket!.emit("message", "message");
+    textChatControl = TextChatControl(this);
   }
   bool expand = true;
   @override
@@ -38,27 +43,21 @@ class _TextChatState extends State<TextChat> {
         padding: EdgeInsets.only(top: 100),
         child: Stack(
           children: [
-
             SizedBox(
               height:MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
                 controller: scrollController,
                 scrollDirection: Axis.vertical,
                 child: Column(
-                  children: const [
-                    Messages(true),
-                    Messages(false),
-                    Messages(false),
-                    Messages(false),
-                    Messages(false),
-                    Messages(false),
+                  children: [
+                    for(int i = 0; i < widget.friend["message"].length; i++)
                     Messages(true),
                     SizedBox(height: 100,)
                   ],
                 ),
               ),
             ),
-            SendMessage(),
+            SendMessage(messageController , textChatControl.sendMessage),
           ],
         ),
       ),

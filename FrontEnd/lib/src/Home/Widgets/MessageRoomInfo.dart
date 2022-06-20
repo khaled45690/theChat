@@ -25,20 +25,20 @@ class MessageRoomInfo extends StatelessWidget {
             height: 15,
           ),
           Row(
-            children: const [
+            children: [
               Text(
-                "Last Message",
-                style: TextStyle(
+                friend["message"].length > 0 ? friend["message"][friend["message"].length - 1]["text"] : "",
+                style: const TextStyle(
                     color: Colors.black45,
                     fontSize: 15,
                     fontWeight: FontWeight.w500),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Text(
-                "Date of Message",
-                style: TextStyle(
+                friend["message"].length > 0 ? friend["message"][friend["message"].length - 1]["date"] : "",
+                style: const TextStyle(
                     color: Colors.black45,
                     fontSize: 15,
                     fontWeight: FontWeight.w500),

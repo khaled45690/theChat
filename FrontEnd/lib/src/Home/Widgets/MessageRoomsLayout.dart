@@ -8,7 +8,8 @@ import 'Avatar.dart';
 import 'MessageRoomInfo.dart';
 class MessageRoomsLayout extends StatelessWidget {
   final Map friend;
-  const MessageRoomsLayout(this.friend);
+  final String friendId;
+  const MessageRoomsLayout(this.friend , this.friendId);
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +23,11 @@ class MessageRoomsLayout extends StatelessWidget {
         splashColor: Colors.deepPurpleAccent.shade400.withOpacity(0.2),
         padding:  const EdgeInsets.only(top: 5 , bottom: 5),
         onPressed: (){
-          navigateTo(context , ChatRoom(friend));
+          navigateTo(context , ChatRoom(friend , friendId));
         },
         child: Row(
           children: [
-            Avatar(),
+            Avatar(friend["imageName"]),
             MessageRoomInfo(friend)
           ],
         ),

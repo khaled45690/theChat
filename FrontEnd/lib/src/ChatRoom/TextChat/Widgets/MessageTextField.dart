@@ -3,11 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SendMsg extends StatelessWidget {
-  const SendMsg();
+class ChatTextField extends StatelessWidget {
+  final TextEditingController messageController;
+  const ChatTextField(this.messageController);
   @override
   Widget build(BuildContext context) {
-    TextEditingController messagecontroller = TextEditingController();
     return InkWell(
       onTap: () {},
       child: Container(
@@ -18,7 +18,7 @@ class SendMsg extends StatelessWidget {
             borderRadius: BorderRadius.circular(250),
           ),
           child: TextFormField(
-            controller: messagecontroller,
+            controller: messageController,
             textAlignVertical: TextAlignVertical.center,
             keyboardType: TextInputType.text,
             maxLines: 3,

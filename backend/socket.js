@@ -18,8 +18,8 @@ module.exports = (io) => {
         socket.on("message", (msg) => {
             console.log(msg);
             let Receiver = msg.Receiver;
-            // if (clients[Receiver])
-            //     clients[Receiver].emit("message", msg);
+            if (clients[Receiver])
+                clients[Receiver].emit("message", msg);
         });
 
         socket.on("addFriend", (msg) => addFriend(msg, clients));

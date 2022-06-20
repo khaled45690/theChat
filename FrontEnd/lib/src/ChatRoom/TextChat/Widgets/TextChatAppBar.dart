@@ -2,8 +2,10 @@
 
 import 'package:chat/src/ChatRoom/VideoChat/VideoChat.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../businesslogic/UserData/UserBloc.dart';
 import '../../../Home/Widgets/Avatar.dart';
 Size size = Size(100, 100);
 class TextChatAppBar extends StatelessWidget  with PreferredSizeWidget{
@@ -20,7 +22,7 @@ class TextChatAppBar extends StatelessWidget  with PreferredSizeWidget{
           Row(
             children: [
               IconButton(onPressed: (){Navigator.of(context).pop();}, icon: Icon(FontAwesomeIcons.arrowLeft , color: Colors.deepPurpleAccent,)),
-              Avatar(),
+              Avatar(context.read<UserBloc>().state?.imageName),
             ],
           ),
           Row(

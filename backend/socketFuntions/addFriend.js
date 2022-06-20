@@ -13,6 +13,7 @@ module.exports = async (msg, clients) => {
 
     if (userFriends[msg.friendId] == undefined) {
         userFriends[msg.friendId] = {
+            "friendId": msg.friendId,
             "name": userNewFriend.name,
             "imageName": userNewFriend.imageName,
             "message": [],
@@ -25,6 +26,7 @@ module.exports = async (msg, clients) => {
 
     if (newFriendFriends[msg.userId] == undefined) {
         newFriendFriends[msg.userId] = {
+            "friendId": msg.userId,
             "name": user.name,
             "imageName": user.imageName,
             "message": [],

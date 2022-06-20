@@ -7,10 +7,11 @@ import 'TextChat/TextChat.dart';
 
 class ChatRoom extends StatelessWidget {
   final Map friend;
-  const ChatRoom(this.friend);
+  final String friendId;
+  const ChatRoom(this.friend , this.friendId);
   @override
   Widget build(BuildContext context) {
-    return TextChat(friend);
+    return TextChat(friend , friendId);
   }
 }
 

@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
                           height: 100,
                         ),
                         for(int i = friends.length - 1 ; i > -1 ; i--)
-                        MessageRoomsLayout(friends[userData.chatOrder![i]]),
+                        MessageRoomsLayout(friends[userData.chatOrder![i]] , userData.chatOrder![i]),
                       ],
                     );
                   }

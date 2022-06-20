@@ -8,17 +8,18 @@ import 'SendButton.dart';
 
 
 class SendMessage extends StatelessWidget {
-
-  const SendMessage();
+  final Function() sendMessage;
+  final TextEditingController messageController;
+  const SendMessage(this.messageController , this.sendMessage);
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
       bottom: 13,
       child: Row(
-        children: const [
-          SendMsg(),
-          IconOfMic(),
+        children: [
+          ChatTextField(messageController),
+          SendButton(sendMessage),
         ],
       ),
     );
