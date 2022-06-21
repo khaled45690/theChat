@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:chat/src/Editprofile/Editprofile.dart';
 import 'package:chat/src/SplashScreen/SpashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +26,7 @@ class Chat extends StatelessWidget {
     return MaterialApp(
       title: 'Chat',
       theme: ThemeData(),
-      home:  SplashScreen(),
+      home:  EditProfile(),
     );
   }
 }

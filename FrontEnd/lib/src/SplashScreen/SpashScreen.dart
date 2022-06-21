@@ -11,7 +11,6 @@ import '../../DependentPlugins.dart';
 import '../../businesslogic/UserData/UserDataModel.dart';
 import '../../businesslogic/UserData/UserBloc.dart';
 import '../Registration/Registration.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

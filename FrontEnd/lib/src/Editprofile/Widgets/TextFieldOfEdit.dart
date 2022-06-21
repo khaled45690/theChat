@@ -1,0 +1,24 @@
+
+import 'package:flutter/material.dart';
+
+import '../../Registration/CommonWidgets/TextFieldWidget.dart';
+
+class TextFields extends StatelessWidget {
+  final Function()? visibiltyChange;
+  final Function(String variableName , String value) onChange;
+  final bool isHidden;
+  final Map loginData , loginDataError;
+  const TextFields(this.visibiltyChange , this.onChange ,this.loginData , this.loginDataError, this.isHidden);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.only(bottom: 30),
+        child: Column(
+          children: [
+            RegistrationTextFieldWidget(TextDirection.ltr, onChange , "email" , loginDataError["email"],"please enter ur email"),
+  
+          ],
+        ));
+  }
+}
