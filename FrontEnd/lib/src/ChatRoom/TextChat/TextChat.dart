@@ -1,9 +1,12 @@
 // ignore_for_file: file_names, use_key_in_widget_constructors, prefer_const_constructors
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../CommonStyle.dart';
+import '../../../businesslogic/UserData/UserBloc.dart';
 import '../../../businesslogic/socket/SocketCubit.dart';
 import 'Control/TextChatControl.dart';
 import 'Widgets/MessageSender.dart';
@@ -26,12 +29,13 @@ class TextChatState extends State<TextChat> {
   @override
   initState(){
     super.initState();
-    context.read<SocketCubit>().socket!.emit("message", "message");
     textChatControl = TextChatControl(this);
   }
   bool expand = true;
   @override
   Widget build(BuildContext context) {
+    Map friends = jsonDecode(context.read<UserBloc>().state!.friends!);
+    Map friend = friends[widget.friendId];
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -50,8 +54,8 @@ class TextChatState extends State<TextChat> {
                 scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
-                    for(int i = 0; i < widget.friend["message"].length; i++)
-                    Messages(true),
+                    for(int i = friend["message"].length - 1; i > -1; i--)
+                    Messages(friend["message"][i]["isSender"]),
                     SizedBox(height: 100,)
                   ],
                 ),

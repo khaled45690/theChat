@@ -27,7 +27,7 @@ class MessageRoomInfo extends StatelessWidget {
           Row(
             children: [
               Text(
-                friend["message"].length > 0 ? friend["message"][friend["message"].length - 1]["text"] : "",
+                handleText("text") ,
                 style: const TextStyle(
                     color: Colors.black45,
                     fontSize: 15,
@@ -37,7 +37,7 @@ class MessageRoomInfo extends StatelessWidget {
                 width: 10,
               ),
               Text(
-                friend["message"].length > 0 ? friend["message"][friend["message"].length - 1]["date"] : "",
+                handleText("date"),
                 style: const TextStyle(
                     color: Colors.black45,
                     fontSize: 15,
@@ -48,5 +48,13 @@ class MessageRoomInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+
+
+  String handleText(String variableName){
+    String text ;
+    text = friend["message"].length > 0 ? friend["message"][friend["message"].length - 1][variableName].toString() : "" ;
+    text = text.length > 10 ? text.substring(0,10) : text;
+    return text;
   }
 }

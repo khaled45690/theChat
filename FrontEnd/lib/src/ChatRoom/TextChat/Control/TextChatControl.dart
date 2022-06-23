@@ -14,7 +14,7 @@ class TextChatControl{
     message["text"] = state.messageController.value.text;
     message["Receiver"] = state.widget.friendId;
     message["Sender"] = state.context.read<UserBloc>().state?.id;
-    message["data"] = DateTime.now().toString();
+    message["date"] = DateTime.now().toString();
     state.context.read<SocketCubit>().socket?.emit("message" , message);
     state.messageController.text = "";
   }

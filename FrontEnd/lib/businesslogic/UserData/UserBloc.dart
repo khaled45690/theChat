@@ -34,7 +34,7 @@ class UserBloc extends Bloc<UserDataState , UserData?> {
   setUserData(UserData userData)async{
     SharedPreferences prefs = await _prefs;
     _userData = userData;
-    prefs.setString("UserData" , jsonEncode(_userData.toMap()));
+    // prefs.setString("UserData" , jsonEncode(_userData.toMap()));
     emit(_userData);
   }
  setPrefs()async{

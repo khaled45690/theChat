@@ -26,7 +26,7 @@ class Chat extends StatelessWidget {
     return MaterialApp(
       title: 'Chat',
       theme: ThemeData(),
-      home:  EditProfile(),
+      home:  SplashScreen(),
     );
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, library_prefixes, unnecessary_string_interpolations
 
-import 'package:chat/businesslogic/socket/SocketFunctions.dart';
+import 'package:chat/businesslogic/socket/socketFunctions/addFriend.dart';
+import 'package:chat/businesslogic/socket/socketFunctions/message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -44,7 +45,7 @@ class SocketCubit extends Cubit<IO.Socket?> {
 
     });
     socket?.on("addFriend", (data) => addFriend(context! , data));
-    socket?.on("message", (data) => {print(data)});
+    socket?.on("message", (data) => {message(context! , data)});
     socket!.emit("/test", "hello");
     //
   }
