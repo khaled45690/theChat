@@ -9,6 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 addFriend(BuildContext context , Map data){
   UserData userData = UserData();
   userData.fromMap(data);
-  context.watch<UserBloc>().setUserData(userData);
-  context.watch<UserBloc>().emit(userData);
+  context.read<UserBloc>().setUserData(userData);
+  context.read<UserBloc>().emit(userData);
 }

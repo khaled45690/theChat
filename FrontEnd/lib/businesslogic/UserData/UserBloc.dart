@@ -12,7 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserBloc extends Bloc<UserDataState , UserData?> {
 
   // pass the initial value with super
-  UserBloc() : super(null);
+  UserBloc() : super(null){
+    // on<ThereIsChange>((event, emit) => emit(_userData));
+  }
 
 
 

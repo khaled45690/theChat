@@ -29,11 +29,17 @@ class _HomeState extends State<Home> {
     super.initState();
     context.read<SocketCubit>().connect();
     context.read<SocketCubit>().socket!.emit("firstTime", context.read<UserBloc>().getUserData().id);
-    context.read<SocketCubit>().setContext(context);
 
   }
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    context.watch<SocketCubit>().setContext(context);
+  }
+  @override
   Widget build(BuildContext context) {
+
     return Scaffold(
               extendBodyBehindAppBar: true,
               drawer: CustomDrawer(),

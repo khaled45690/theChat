@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../UserData/UserBloc.dart';
+import '../../UserData/UserData_state.dart';
 
 
 message(BuildContext context , Map data){
@@ -16,7 +17,9 @@ message(BuildContext context , Map data){
   friends[data["Sender"]]["message"].add(data);
   print(friends);
   userData.friends = jsonEncode(friends);
+  BlocProvider.of<UserBloc>(context , listen: true).setUserData(userData);
   context.read<UserBloc>().setUserData(userData);
+  context.read<UserBloc>().emit(userData);
   // userData.fromMap(data);
   // context.read<UserBloc>().setUserData(userData);
 }
