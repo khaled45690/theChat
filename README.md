@@ -9,7 +9,6 @@ Working on adding real time video chat with c++ NDK camera and audio library to 
 some pictures of the app
 ----------
 
-
 ![Screenshot_1656539291](https://user-images.githubusercontent.com/65211124/176551390-4af2341d-acbc-4229-9d62-5ae1c28281ae.png)
 ![Screenshot_1656539317](https://user-images.githubusercontent.com/65211124/176551400-4b53e568-0fdf-435a-92e3-0691442442af.png)
 ![Screenshot_1656539271](https://user-images.githubusercontent.com/65211124/176551413-89d93680-d49d-4ed4-b809-8ee37cf0dfb4.png)
