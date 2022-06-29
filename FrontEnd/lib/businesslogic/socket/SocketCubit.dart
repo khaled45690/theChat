@@ -45,7 +45,7 @@ class SocketCubit extends Cubit<IO.Socket?> {
 
     });
     socket?.on("addFriend", (data) => addFriend(context! , data));
-    socket?.on("message", (data) => {message(context! , data)});
+    socket?.on("message", (data) => receivedMessage(context! , data));
     socket!.emit("/test", "hello");
     //
   }

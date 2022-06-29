@@ -12,9 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserBloc extends Bloc<UserDataState , UserData?> {
 
   // pass the initial value with super
-  UserBloc() : super(null){
-    // on<ThereIsChange>((event, emit) => emit(_userData));
-  }
+  UserBloc() : super(null);
 
 
 
@@ -36,7 +34,7 @@ class UserBloc extends Bloc<UserDataState , UserData?> {
   setUserData(UserData userData)async{
     SharedPreferences prefs = await _prefs;
     _userData = userData;
-    // prefs.setString("UserData" , jsonEncode(_userData.toMap()));
+    prefs.setString("UserData" , jsonEncode(_userData.toMap()));
     emit(_userData);
   }
  setPrefs()async{

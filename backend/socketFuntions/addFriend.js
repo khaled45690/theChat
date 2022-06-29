@@ -1,8 +1,5 @@
 const Auth = require('../model/auth_model');
 module.exports = async (msg, clients) => {
-    // console.log(msg);
-    // console.log(clients);
-
     const user = await Auth.findOne({ _id: msg.userId });
     const userNewFriend = await Auth.findOne({ _id: msg.friendId });
 

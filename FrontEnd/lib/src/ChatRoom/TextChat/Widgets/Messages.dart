@@ -3,21 +3,20 @@
 import 'package:flutter/material.dart';
 
 import '../../../Clippers/MessageClipper.dart';
-String data = "khjgasdfhgjkasgdfkj;ladfmglksdfgksdfgjlsdfglkdsfjglksdjfglksdfjgsdfggawgejsrasdrasdrasdr";
 class Messages extends StatelessWidget {
-  final bool isSender;
-  const Messages(this.isSender);
+  final Map messageData;
+  const Messages(this.messageData);
 
   @override
   Widget build(BuildContext context) {
-    return isSender ? senderMessage() : receiverMessage();
+    return messageData["isSender"] ? senderMessage() : receiverMessage();
   }
 
   Widget receiverMessage() {
     return Align(
       alignment: AlignmentDirectional.centerStart,
       child: ClipPath(
-        clipper: MessageClipper(isSender),
+        clipper: MessageClipper(messageData["isSender"]),
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -41,7 +40,7 @@ class Messages extends StatelessWidget {
     return Align(
       alignment: AlignmentDirectional.centerEnd,
       child: ClipPath(
-          clipper: MessageClipper(isSender),
+          clipper: MessageClipper(messageData["isSender"]),
           child: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
@@ -68,13 +67,14 @@ class Messages extends StatelessWidget {
         margin: const EdgeInsets.all(18),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment:MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-                width: 200,
-                child: Text(data,
+              width:190,
+                child: Text(messageData["text"],
                     style: const TextStyle(color: Colors.white, fontSize: 18))),
-            const SizedBox(width: 10,),
-            const Text("Time",
+            const SizedBox(width: 5,),
+            Text(messageData["date"].toString().substring(10,19),
                 style: TextStyle(color: Colors.white, fontSize: 10)),
 
           ],

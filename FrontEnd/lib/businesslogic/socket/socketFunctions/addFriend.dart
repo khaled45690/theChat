@@ -10,5 +10,4 @@ addFriend(BuildContext context , Map data){
   UserData userData = UserData();
   userData.fromMap(data);
   context.read<UserBloc>().setUserData(userData);
-  context.read<UserBloc>().emit(userData);
 }

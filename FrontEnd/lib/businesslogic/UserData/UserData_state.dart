@@ -4,5 +4,6 @@
 
 abstract class UserDataState{}
 
+class InitUserState extends UserDataState {}
 class ThereIsChange extends UserDataState {}
 

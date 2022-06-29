@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../CommonStyle.dart';
 import '../../../businesslogic/UserData/UserBloc.dart';
-import '../../../businesslogic/socket/SocketCubit.dart';
+import '../../../businesslogic/UserData/UserDataModel.dart';
 import 'Control/TextChatControl.dart';
 import 'Widgets/MessageSender.dart';
 import 'Widgets/Messages.dart';
@@ -34,9 +34,6 @@ class TextChatState extends State<TextChat> {
   bool expand = true;
   @override
   Widget build(BuildContext context) {
-    Map friends = jsonDecode(context.read<UserBloc>().state!.friends!);
-    Map friend = friends[widget.friendId];
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: const TextChatAppBar(),
@@ -52,12 +49,18 @@ class TextChatState extends State<TextChat> {
               child: SingleChildScrollView(
                 controller: scrollController,
                 scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    for(int i = friend["message"].length - 1; i > -1; i--)
-                    Messages(friend["message"][i]["isSender"]),
-                    SizedBox(height: 100,)
-                  ],
+                child: BlocBuilder<UserBloc, UserData?>(
+                 builder: (context , userData) {
+                   Map friends = jsonDecode(userData!.friends!);
+                   Map friend = friends[widget.friendId];
+                   return Column(
+                     children: [
+                       for(int i = 0; i < friend["message"].length; i++)
+                         Messages(friend["message"][i]),
+                       SizedBox(height: 100,)
+                     ],
+                   );
+                 }
                 ),
               ),
             ),

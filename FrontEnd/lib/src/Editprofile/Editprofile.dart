@@ -1,11 +1,10 @@
+// ignore_for_file: file_names, prefer_const_constructors
+
 import 'package:chat/src/Registration/CommonWidgets/TextFieldWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../CommonStyle.dart';
 import '../Registration/CommonWidgets/RegistrationButton.dart';
-import '../Registration/SignIn/widgets/TextFields.dart';
 import 'Control/EditControl.dart';
 import 'Widgets/CircleAvatarImage.dart';
 
