@@ -22,7 +22,7 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-        main.cpp src/CameraEngine.cpp )
+        main.cpp src/CppFiles/CameraEngine.cpp  src/CppFiles/ImageListener.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -45,5 +45,7 @@ target_link_libraries( # Specifies the target library.
                         main
                        # Links the target library to the log library
                        # included in the NDK.
-
+                        camera2ndk
+                        android
+                        mediandk
                        ${log-lib} )

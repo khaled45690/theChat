@@ -10,7 +10,5 @@ extern "C" __attribute__((visibility("default"))) __attribute__((used))
                     int32_t bar,
                     void (*callback)(void*, int32_t)
                     ) {
-
-
-    callback(nullptr, cameraEngine.initialize());
+    callback(nullptr, cameraEngine.initialize(callback));
 }
