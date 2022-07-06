@@ -8,7 +8,9 @@ import 'package:flutter/services.dart';
 import 'dart:io' show Directory, Platform;
 
 import 'package:permission_handler/permission_handler.dart';
-typedef ReverseNative = ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void> str);
+
+typedef ReverseNative = ffi.Pointer<ffi.Void> Function(
+    ffi.Pointer<ffi.Void> str);
 typedef example_callback = ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32);
 typedef example_foo = ffi.Int32 Function(
     ffi.Int32 bar, ffi.Pointer<ffi.NativeFunction<example_callback>>);
@@ -25,8 +27,10 @@ class CameraImageStream extends StatefulWidget {
 class _CameraImageStreamState extends State<CameraImageStream> {
   static int callback(ffi.Pointer<ffi.Void> ptr, int i) {
     print('in callback i=$i');
-    print('<<<<<<<<<<<<<<<<<<<<<<<<-----------------------i made a call back function----------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    print('<<<<<<<<<<<<<<<<<<<<<<<<-----------------------this is a dart code that is being called from C++----------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    print(
+        '<<<<<<<<<<<<<<<<<<<<<<<<-----------------------i made a call back function----------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    print(
+        '<<<<<<<<<<<<<<<<<<<<<<<<-----------------------this is a dart code that is being called from C++----------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     return i + 1;
   }
 
@@ -34,6 +38,7 @@ class _CameraImageStreamState extends State<CameraImageStream> {
     checkPermission();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,7 +48,7 @@ class _CameraImageStreamState extends State<CameraImageStream> {
     );
   }
 
-  checkPermission()async{
+  checkPermission() async {
     print("status.isGranted");
     PermissionStatus status = await Permission.camera.status;
     Permission.notification;
@@ -53,10 +58,11 @@ class _CameraImageStreamState extends State<CameraImageStream> {
           ? ffi.DynamicLibrary.open('libmain.so')
           : ffi.DynamicLibrary.process();
       // final int Function(int Function str) = nativeAddLib.lookupFunction<FuntionToNative, FuntionToDart>('reverse');
-      ExampleFoo nativeFoo =
-      nativeAddLib.lookup<ffi.NativeFunction<example_foo>>('cameraInit').asFunction();
-      nativeFoo(5 , ffi.Pointer.fromFunction<example_callback>(callback, 0));
-    }else if(status.isDenied){
+      ExampleFoo nativeFoo = nativeAddLib
+          .lookup<ffi.NativeFunction<example_foo>>('cameraInit')
+          .asFunction();
+      nativeFoo(5, ffi.Pointer.fromFunction<example_callback>(callback, 0));
+    } else if (status.isDenied) {
       checkPermission();
     }
   }
