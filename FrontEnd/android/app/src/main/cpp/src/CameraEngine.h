@@ -20,11 +20,11 @@ ACaptureSessionOutput *output;
 ACaptureRequest *request;
 ACameraCaptureSession *session;
 static void (*dartCallback)(void*, int32_t);
+static void onImageAvailable(void* context, AImageReader* reader);
 public:
     // initialize function is used to initialize the variables data
     // and then start the camera and start the image streaming process
     // and get back the images in uint32_t format
-    static void onImageAvailable(void* context, AImageReader* reader);
     int initialize(void (*callback)(void*, int32_t));
 };
 
