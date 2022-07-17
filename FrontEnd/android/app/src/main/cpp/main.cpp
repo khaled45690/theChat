@@ -5,10 +5,22 @@
 #include <stdint.h>
 #include "src/CameraEngine.h"
 CameraEngine cameraEngine =  CameraEngine();
+
 extern "C" __attribute__((visibility("default"))) __attribute__((used))
- void cameraInit(
-                    int32_t bar,
-                    void (*callback)(void*, int32_t)
-                    ) {
-    callback(nullptr, cameraEngine.initialize(callback));
+ void cameraInit(int64_t send_port,void (*callback)(void*, uint32_t*)) {
+    cameraEngine.initialize(callback , send_port);
+}
+
+
+extern "C" __attribute__((visibility("default"))) __attribute__((used))
+void ExecuteCallback(Work* work_ptr) {
+    const Work work = *work_ptr;
+    work();
+    delete work_ptr;
+}
+
+
+extern "C" __attribute__((visibility("default"))) __attribute__((used))
+intptr_t InitDartApiDL(void* data) {
+    return Dart_InitializeApiDL(data);
 }

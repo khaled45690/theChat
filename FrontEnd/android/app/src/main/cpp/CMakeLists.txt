@@ -14,7 +14,7 @@ project("main")
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
-
+#target_link_libraries(F:/programing/AndroidStudio/Flutter/flutter_windows_2.5.3-stable/flutter/bin/cache/dart-sdk/bin/dart.so)
 add_library( # Sets the name of the library.
         main
 
@@ -22,7 +22,14 @@ add_library( # Sets the name of the library.
              SHARED
 
              # Provides a relative path to your source file(s).
-        main.cpp src/CppFiles/CameraEngine.cpp  src/CppFiles/ImageListener.cpp)
+        main.cpp
+        src/CppFiles/CameraEngine.cpp
+        src/CppFiles/ImageListener.cpp
+        src/CppFiles/DartNotifyHandler.cpp
+        F:/programing/AndroidStudio/Flutter/flutter_windows_2.5.3-stable/flutter/bin/cache/dart-sdk/include/dart_api_dl.c
+        F:/programing/AndroidStudio/Flutter/flutter_windows_2.5.3-stable/flutter/bin/cache/dart-sdk/bin/dart.lib
+        )
+
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

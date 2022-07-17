@@ -65,12 +65,11 @@ ACameraCaptureSession_captureCallbacks captureListener{
         .onCaptureBufferLost = nullptr,
 };
 
-int CameraEngine::initialize(void (*callback)(void*, int32_t)) {
-    // set the dartCallbackFunction to the parsed callback to use it in Imagelistener
+int CameraEngine::initialize(void (*callback)(void*, int64_t) , int64_t send_port) {
+    // set the dartCallbackFunction to the parsed callback to use it in Image listener
     dartCallback = callback;
-    // call them a couple of times to make sure they work well
-    dartCallback(nullptr, 2022);
-    dartCallback(nullptr, 2025);
+    // set the dart port that will listen for the up coming to the parsed dart send port to use it in Image listener
+    dartSendPort = send_port;
 // first of all we need this manager to be able to control our camera system
     manager = ACameraManager_create();
     // then create a output container to hold our sessions
@@ -101,11 +100,13 @@ int CameraEngine::initialize(void (*callback)(void*, int32_t)) {
 
     ACameraDevice_createCaptureSession(device, container, &sessionListener, &session);
     int captureSequenceId = 2;
-
+//    ACameraCaptureSession_capture(session, &captureListener,1 , &request, &captureSequenceId);
     ACameraCaptureSession_setRepeatingRequest(session, &captureListener, 1, &request, &captureSequenceId);
 
     return 2030;
 }
 
-void (*CameraEngine::dartCallback)(void*, int32_t) = nullptr;
+void (*CameraEngine::dartCallback)(void*, uint32_t*) = nullptr;
+
+int64_t CameraEngine::dartSendPort = 0;
 
