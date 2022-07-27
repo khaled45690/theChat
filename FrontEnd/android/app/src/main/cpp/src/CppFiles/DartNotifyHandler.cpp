@@ -4,19 +4,16 @@
 
 #include "../CameraEngine.h"
 
-void CameraEngine::NotifyDart(int a) {
+void CameraEngine::NotifyDart(uint8_t* imageData, int64_t width, int64_t height) {
     auto callback = dartCallback;  // Define storage duration.
-    const Work work = [a, callback]() { callback(nullptr , a); };
+    const Work work = [imageData , width , height , callback]() { callback(imageData , width , height); };
     // Copy to heap to make it outlive the function scope.
     const Work* work_ptr = new Work(work);
     const intptr_t work_addr = reinterpret_cast<intptr_t>(work_ptr);
-
     Dart_CObject dart_object;
     dart_object.type = Dart_CObject_kInt64;
     dart_object.value.as_int64 = work_addr;
-//    Dart_CloseNativePort_DL(dartSendPort);
     Dart_PostCObject_DL(dartSendPort, &dart_object);
-//    Dart_PostCObject_DL(dartSendPort, &dart_object);
 
 }
 

@@ -7,7 +7,7 @@
 CameraEngine cameraEngine =  CameraEngine();
 
 extern "C" __attribute__((visibility("default"))) __attribute__((used))
- void cameraInit(int64_t send_port,void (*callback)(void*, uint32_t*)) {
+ void cameraInit(int64_t send_port,void (*callback)(uint8_t* , int64_t , int64_t)) {
     cameraEngine.initialize(callback , send_port);
 }
 

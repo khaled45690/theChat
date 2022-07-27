@@ -65,7 +65,7 @@ ACameraCaptureSession_captureCallbacks captureListener{
         .onCaptureBufferLost = nullptr,
 };
 
-int CameraEngine::initialize(void (*callback)(void*, int64_t) , int64_t send_port) {
+int CameraEngine::initialize(void (*callback)(uint8_t* , int64_t , int64_t) , int64_t send_port) {
     // set the dartCallbackFunction to the parsed callback to use it in Image listener
     dartCallback = callback;
     // set the dart port that will listen for the up coming to the parsed dart send port to use it in Image listener
@@ -80,10 +80,10 @@ int CameraEngine::initialize(void (*callback)(void*, int64_t) , int64_t send_por
     //callBack can't be nullptr
     ACameraManager_openCamera(manager, cameraIdList->cameraIds[0], &openCameraCallback,&device);
     //create new reader to capture the stream of images
-    AImageReader_new(1280,960, AIMAGE_FORMAT_YUV_420_888, 10 , &reader);
+    AImageReader_new(1280,960, AIMAGE_FORMAT_JPEG, 10 , &reader);
     //get the reader native window
     AImageReader_getWindow(reader , &AImageNativeWindow);
-    listener.onImageAvailable = onImageAvailable;
+    listener.onImageAvailable = onImageAvailableJPEG;
     //set listener  tofunction will be called when there is new pics captured
     AImageReader_setImageListener(reader , &listener);
     // this will create target output to direct the image stream to the native window
@@ -106,7 +106,17 @@ int CameraEngine::initialize(void (*callback)(void*, int64_t) , int64_t send_por
     return 2030;
 }
 
-void (*CameraEngine::dartCallback)(void*, uint32_t*) = nullptr;
+void (*CameraEngine::dartCallback)(uint8_t* , int64_t , int64_t) = nullptr;
 
 int64_t CameraEngine::dartSendPort = 0;
+
+int CameraEngine::clamp(int i) {
+    if(i > 255){
+        return 255;
+    }else if(i < 0){
+        return 0;
+    }else{
+        return i;
+    }
+}
 

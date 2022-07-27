@@ -24,7 +24,8 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
         main.cpp
         src/CppFiles/CameraEngine.cpp
-        src/CppFiles/ImageListener.cpp
+        src/CppFiles/ImageListenerYUV.cpp
+        src/CppFiles/ImageListenerJPEG.cpp
         src/CppFiles/DartNotifyHandler.cpp
         F:/programing/AndroidStudio/Flutter/flutter_windows_2.5.3-stable/flutter/bin/cache/dart-sdk/include/dart_api_dl.c
         F:/programing/AndroidStudio/Flutter/flutter_windows_2.5.3-stable/flutter/bin/cache/dart-sdk/bin/dart.lib
