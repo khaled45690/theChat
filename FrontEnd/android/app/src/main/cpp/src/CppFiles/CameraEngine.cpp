@@ -80,10 +80,10 @@ int CameraEngine::initialize(void (*callback)(uint8_t* , int64_t , int64_t) , in
     //callBack can't be nullptr
     ACameraManager_openCamera(manager, cameraIdList->cameraIds[0], &openCameraCallback,&device);
     //create new reader to capture the stream of images
-    AImageReader_new(1280,960, AIMAGE_FORMAT_JPEG, 10 , &reader);
+    AImageReader_new(640,360 , AIMAGE_FORMAT_YUV_420_888, 10 , &reader);
     //get the reader native window
     AImageReader_getWindow(reader , &AImageNativeWindow);
-    listener.onImageAvailable = onImageAvailableJPEG;
+    listener.onImageAvailable = onImageAvailableYUVtoRGB;
     //set listener  tofunction will be called when there is new pics captured
     AImageReader_setImageListener(reader , &listener);
     // this will create target output to direct the image stream to the native window
@@ -100,8 +100,8 @@ int CameraEngine::initialize(void (*callback)(uint8_t* , int64_t , int64_t) , in
 
     ACameraDevice_createCaptureSession(device, container, &sessionListener, &session);
     int captureSequenceId = 2;
-//    ACameraCaptureSession_capture(session, &captureListener,1 , &request, &captureSequenceId);
-    ACameraCaptureSession_setRepeatingRequest(session, &captureListener, 1, &request, &captureSequenceId);
+    ACameraCaptureSession_capture(session, &captureListener,1 , &request, &captureSequenceId);
+//    ACameraCaptureSession_setRepeatingRequest(session, &captureListener, 1, &request, &captureSequenceId);
 
     return 2030;
 }

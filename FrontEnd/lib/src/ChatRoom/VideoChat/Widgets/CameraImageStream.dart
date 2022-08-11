@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'dart:ffi' as ffi; // For FFI
 import 'dart:io' as io; // For Platform.isX
 import 'dart:ui' as ui show Image;
+import 'package:image/image.dart' as imglib;
+import 'package:jpeg_encode/jpeg_encode.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 
@@ -37,9 +39,11 @@ class _CameraImageStreamState extends State<CameraImageStream> {
   var executeCallback;
 
   static int callback(ffi.Pointer<ffi.Uint8> imageData, int imageWidth, int imageHeight) {
-    int imageSize = imageWidth * imageHeight;
+    int imageSize = (imageWidth * imageHeight).toInt();
     List<int> imgData = imageData.asTypedList((imageSize));
-    // imglib.Image img = imglib.Image.fromBytes(imageWidth, imageHeight, imgData);
+    // print(imgData);
+    imglib.Image img = imglib.Image.fromBytes(imageWidth, imageHeight, imgData);
+    // print("Uint8List.fromList(Jpg)");
     // print(
         // 'in callback From C++ the number of frames that captured is equal to=${imgData}');
     // print(
@@ -48,9 +52,14 @@ class _CameraImageStreamState extends State<CameraImageStream> {
     // print('in callback From C++ the imageHeight is equal to=$imageHeight');
     // var img = imglib.Image.fromBytes(imageWidth, imageHeight, imgData);
     // print('in callback From C++ the Uint32List is equal to=${img.data}');
-    // List<int> Jpg = imglib.encodeJpg(img);
-    // print('in callback From C++ the jpeg is equal to=${Jpg}');
-    ImageStream.increaseAge(Uint8List.fromList(imgData), imageWidth, imageHeight);
+
+    // imglib.PngEncoder pngEncoder = new imglib.PngEncoder(level: 0, filter: 0);
+    // List<int> Jpg = imglib.encodeJpg(img) ;
+    // print('in callback From C++ the jpeg is equal to= $Jpg');
+    // List<int> png = pngEncoder.encodeImage(img);
+    // print(img.data);
+
+    ImageStream.increaseAge(img, imageWidth, imageHeight );
     // person.increaseAge(Uint8List.fromList(imgData));
     //  jpgUinGlob = Uint8List.fromList(imgData);
     return 1;
@@ -107,8 +116,6 @@ class _CameraImageStreamState extends State<CameraImageStream> {
       ..listen(requestExecuteCallback);
     final int nativePort = interactiveCppRequests.sendPort.nativePort;
     PermissionStatus status = await Permission.camera.status;
-    Permission.notification;
-    await Permission.manageExternalStorage.status;
     if (status.isGranted) {
       final ffi.DynamicLibrary nativeAddLib = io.Platform.isAndroid
           ? ffi.DynamicLibrary.open('libmain.so')
@@ -155,8 +162,12 @@ class ImageStream {
   static StreamController<ui.Image> imageStream = StreamController<ui.Image>();
 
   static void increaseAge(
-      Uint8List imageDataParameter, int width, int height) async {
-    imageStream.sink.add(await decodeImageFromList(imageDataParameter));
+      imglib.Image imageDataParameter, int width, int height) async {
+    imglib.PngEncoder pngEncoder = imglib.PngEncoder(level: 0, filter: 0);
+    // List<int> Jpg = imglib.encodeJpg(imageDataParameter) ;
+    List<int> png = pngEncoder.encodeImage(imageDataParameter);
+    print(png);
+    imageStream.sink.add(await decodeImageFromList(Uint8List.fromList(png)));
   }
 }
 

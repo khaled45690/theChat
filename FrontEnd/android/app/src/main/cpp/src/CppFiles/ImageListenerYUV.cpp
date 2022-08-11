@@ -56,12 +56,12 @@ int i = 0;
      AImage_getPlaneRowStride(image, 1 , &uRowStride);
      AImage_getPlaneRowStride(image, 2 , &vRowStride);
 
-     int numPixels = int(11) ;
-     __android_log_print(ANDROID_LOG_INFO, "Information", "the time consumed is -------------------->>>> %d " , numPixels);
-     uint32_t* nv21 = (uint32_t*)malloc(numPixels);
+     int numPixels = width * height;
+//     __android_log_print(ANDROID_LOG_INFO, "Information", "the time consumed is -------------------->>>> %d " , numPixels);
+     uint8_t* nv21 = (uint8_t*)malloc(numPixels);
      int yp, up, vp;
-     for(int x=0; x < width - 1; x++) {
-         for(int y=0; y < height -1; y++) {
+     for(int x=0; x < height ; x++) {
+         for(int y=0; y < width ; y++) {
               int uvIndex = uPixelStride * (int)(x/2) + uRowStride * (int)(y/2);
 
               int index = y * width + x ;
@@ -76,8 +76,9 @@ int i = 0;
               int g = clamp((int)(yp - up * 46549 / 131072 + 44 -vp * 93604 / 131072 + 91));
               int b = clamp((int)(yp + up * 1814 / 1024 - 227));
 
-
-              nv21[index] = (0xFF << 24) | (b << 16) | (g << 8) | r ;
+//             __android_log_print(ANDROID_LOG_INFO, "Information", "the index is bigger than array size %d " , numPixels > index);
+                    nv21[index] = (0xFF << 24) | (r << 16) | (g << 8) | b ;
+           
          }
      }
       auto end = high_resolution_clock::now();
@@ -86,8 +87,8 @@ int i = 0;
 
 //     __android_log_print(ANDROID_LOG_INFO, "khaled", "the first element is -------------------->>>> %d" ,  nv21[0] );
 
-//     NotifyDart(nv21 , width , height);
-//     free(nv21);
+     NotifyDart(nv21 , width , height);
+     free(nv21);
      AImage_delete(image);
 
 }
