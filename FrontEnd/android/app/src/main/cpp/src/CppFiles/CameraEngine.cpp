@@ -80,7 +80,7 @@ int CameraEngine::initialize(void (*callback)(uint8_t* , int64_t , int64_t) , in
     //callBack can't be nullptr
     ACameraManager_openCamera(manager, cameraIdList->cameraIds[0], &openCameraCallback,&device);
     //create new reader to capture the stream of images
-    AImageReader_new(640,360 , AIMAGE_FORMAT_YUV_420_888, 10 , &reader);
+    AImageReader_new(320,280 , AIMAGE_FORMAT_YUV_420_888, 10 , &reader);
     //get the reader native window
     AImageReader_getWindow(reader , &AImageNativeWindow);
     listener.onImageAvailable = onImageAvailableYUVtoRGB;

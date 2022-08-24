@@ -4,6 +4,9 @@
 #include <string>
 #include <stdint.h>
 #include "src/CameraEngine.h"
+
+
+
 CameraEngine cameraEngine =  CameraEngine();
 
 extern "C" __attribute__((visibility("default"))) __attribute__((used))

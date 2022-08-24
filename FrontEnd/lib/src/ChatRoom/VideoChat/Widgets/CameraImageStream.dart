@@ -1,17 +1,21 @@
 // ignore_for_file: file_names
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:core';
 import 'dart:isolate';
 import 'dart:typed_data';
+import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 import 'dart:ffi' as ffi; // For FFI
 import 'dart:io' as io; // For Platform.isX
 import 'dart:ui' as ui show Image;
 import 'package:image/image.dart' as imglib;
-import 'package:jpeg_encode/jpeg_encode.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
+
+import '../../../../DependentPlugins.dart';
+import '../../../../constants/Constants.dart';
 
 typedef ReverseNative = ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void> str);
@@ -39,10 +43,28 @@ class _CameraImageStreamState extends State<CameraImageStream> {
   var executeCallback;
 
   static int callback(ffi.Pointer<ffi.Uint8> imageData, int imageWidth, int imageHeight) {
-    int imageSize = (imageWidth * imageHeight).toInt();
+    int imageSize = imageWidth * imageHeight;
     List<int> imgData = imageData.asTypedList((imageSize));
-    // print(imgData);
-    imglib.Image img = imglib.Image.fromBytes(imageWidth, imageHeight, imgData);
+    // calloc.free(imageData);
+    print(imgData);
+    // Uint32List imgDataUint32 = Uint8List.fromList(imgData).buffer.asUint32List() ;
+    // print(imgDataUint32);
+    // // { argb, abgr, rgba, bgra, rgb, bgr, luminance }
+
+
+    // imglib.Image img = imglib.Image.fromBytes(imageWidth , imageHeight, imgData  , format: imglib.Format.luminance );
+
+
+
+    // print(x);
+    // print("${img.getBytes().length}");
+    // imglib.Image? x = imglib.decodeImage(imgDataUint32);
+    // print(x?.channels);
+    // calloc.free(imageData);
+    // print(img.width);
+    // print(img.data);
+    // imglib.PngEncoder pngEncoder = imglib.PngEncoder(level: 0, filter: 0);
+
     // print("Uint8List.fromList(Jpg)");
     // print(
         // 'in callback From C++ the number of frames that captured is equal to=${imgData}');
@@ -54,12 +76,21 @@ class _CameraImageStreamState extends State<CameraImageStream> {
     // print('in callback From C++ the Uint32List is equal to=${img.data}');
 
     // imglib.PngEncoder pngEncoder = new imglib.PngEncoder(level: 0, filter: 0);
-    // List<int> Jpg = imglib.encodeJpg(img) ;
+    // List<int> Jpg = imglib.encodeJpg(img , quality: 100) ;
     // print('in callback From C++ the jpeg is equal to= $Jpg');
     // List<int> png = pngEncoder.encodeImage(img);
-    // print(img.data);
+    // print(png);
 
-    ImageStream.increaseAge(img, imageWidth, imageHeight );
+
+    // print(response.statusCode);
+    //
+    // response.stream.transform(utf8.decoder).listen((value) {
+    //   Map data = jsonDecode(value);
+    //
+    // });
+
+    HttpPost("saveimage" , {"imageBytes" : Uint8List.fromList(imgData), "width" :  imageWidth, "height" : imageHeight});
+    ImageStream.increaseAge(Uint8List.fromList(imgData), imageWidth, imageHeight );
     // person.increaseAge(Uint8List.fromList(imgData));
     //  jpgUinGlob = Uint8List.fromList(imgData);
     return 1;
@@ -74,40 +105,29 @@ class _CameraImageStreamState extends State<CameraImageStream> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width - 20,
-      height: MediaQuery.of(context).size.height - 40,
       color: Colors.white,
-      child: RotationTransition(
-              turns: const AlwaysStoppedAnimation(90 / 360),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 1),
-                child: StreamBuilder(
-                  stream: ImageStream.imageStream.stream,
-                  builder: (BuildContext context, AsyncSnapshot<ui.Image> imageData) {
-                    return  RawImage(
-                      image: imageData.data,
-                    );
-
-                    //   CustomPaint(
-                    //   painter: MyCustomPainter(imageData.data),
-                    //   willChange: true,
-                    //   size: Size(200 , 200),
-                    // );
-                  },
-                ),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 1),
+        child: StreamBuilder(
+          stream: ImageStream.imageStream.stream,
+          builder: (BuildContext context, AsyncSnapshot<ui.Image> imageData) {
+            return  Container(
+              width: MediaQuery.of(context).size.width - 10,
+              height: MediaQuery.of(context).size.height - 10,
+              child: RawImage(
+                fit: BoxFit.cover,
+                image: imageData.data,
               ),
+            );
 
-              // StreamBuilder(
-              //   stream: ImageStream.imageStream.stream,
-              //   builder: (BuildContext context, AsyncSnapshot<ui.Image> imageData) {
-              //   return  CustomPaint(
-              //     painter: MyCustomPainter(imageData.data),
-              //     willChange: true,
-              //     size: Size(200 , 200),
-              //   );
-              //   },
-              // ),
-            )
+            //   CustomPaint(
+            //   painter: MyCustomPainter(imageData.data),
+            //   willChange: true,
+            //   size: Size(200 , 200),
+            // );
+          },
+        ),
+      )
     );
   }
 
@@ -160,14 +180,10 @@ Future asyncSleep(int ms) {
 
 class ImageStream {
   static StreamController<ui.Image> imageStream = StreamController<ui.Image>();
-
   static void increaseAge(
-      imglib.Image imageDataParameter, int width, int height) async {
-    imglib.PngEncoder pngEncoder = imglib.PngEncoder(level: 0, filter: 0);
-    // List<int> Jpg = imglib.encodeJpg(imageDataParameter) ;
-    List<int> png = pngEncoder.encodeImage(imageDataParameter);
-    print(png);
-    imageStream.sink.add(await decodeImageFromList(Uint8List.fromList(png)));
+  Uint8List imageDataParameter, int width, int height) async {
+    // print(imageDataParameter);
+    imageStream.sink.add(await decodeImageFromList(imageDataParameter));
   }
 }
 

@@ -30,7 +30,7 @@ void CameraEngine::onImageAvailableJPEG(void* context, AImageReader* reader) {
         AImage_getPlaneData(image, 0 , &imagedata, &imagedataLength);
 
     __android_log_print(ANDROID_LOG_INFO, "Information", "num OF platesis -------------------->>>> %d " , imagedata);
-        NotifyDart(imagedata , width , height);
+//        NotifyDart(imagedata , width , height);
 
 
 
