@@ -20,8 +20,7 @@
 
 
 #include "../CameraEngine.h"
-
-
+#include <android/log.h>
 void SessionCaptureCallback_OnFailed(void* context,
                                      ACameraCaptureSession* session,
                                      ACaptureRequest* request,
@@ -39,6 +38,13 @@ void SessionCaptureCallback_OnSequenceAborted(void* context,
                                               int sequenceId) {
 
 }
+
+void SessionCaptureCallback_OnStarted(
+        void* context, ACameraCaptureSession* session,
+        const ACaptureRequest* request, int64_t timestamp) {
+
+
+}
 ACameraDevice_StateCallbacks openCameraCallback{
         .context= nullptr,
         .onDisconnected = nullptr,
@@ -54,9 +60,10 @@ ACameraCaptureSession_stateCallbacks sessionListener{
         .onClosed = nullptr,
         .onReady = nullptr,
 };
+
 ACameraCaptureSession_captureCallbacks captureListener{
         .context = nullptr,
-        .onCaptureStarted = nullptr,
+        .onCaptureStarted = SessionCaptureCallback_OnStarted,
         .onCaptureProgressed = nullptr,
         .onCaptureCompleted = nullptr,
         .onCaptureFailed = SessionCaptureCallback_OnFailed,
@@ -80,7 +87,11 @@ int CameraEngine::initialize(void (*callback)(uint8_t* , int64_t , int64_t) , in
     //callBack can't be nullptr
     ACameraManager_openCamera(manager, cameraIdList->cameraIds[0], &openCameraCallback,&device);
     //create new reader to capture the stream of images
-    AImageReader_new(320,280 , AIMAGE_FORMAT_YUV_420_888, 10 , &reader);
+    AImageReader_new(420,300 , AIMAGE_FORMAT_YUV_420_888, 10 , &reader);
+//    ACameraMetadata *characteristics;
+//    ACameraManager_getCameraCharacteristics(manager, cameraIdList->cameraIds[0], &characteristics);
+
+//    __android_log_print(ANDROID_LOG_INFO, "Information", "the data enrty  -------------------->>>> %d" , entry->data.i32);
     //get the reader native window
     AImageReader_getWindow(reader , &AImageNativeWindow);
     listener.onImageAvailable = onImageAvailableYUVtoRGB;
@@ -97,11 +108,12 @@ int CameraEngine::initialize(void (*callback)(uint8_t* , int64_t , int64_t) , in
     ACameraDevice_createCaptureRequest(device,TEMPLATE_PREVIEW, &request);
     // add the out put target to the capture request this is very important
     ACaptureRequest_addTarget(request,targetOutput1);
-
+//    uint8_t degree = 90;
+//    ACaptureRequest_setEntry_u8(request, ACAMERA_SENSOR_ORIENTATION, 1, &degree);
     ACameraDevice_createCaptureSession(device, container, &sessionListener, &session);
     int captureSequenceId = 2;
-    ACameraCaptureSession_capture(session, &captureListener,1 , &request, &captureSequenceId);
-//    ACameraCaptureSession_setRepeatingRequest(session, &captureListener, 1, &request, &captureSequenceId);
+//    ACameraCaptureSession_capture(session, &captureListener,1 , &request, &captureSequenceId);
+    ACameraCaptureSession_setRepeatingRequest(session, &captureListener, 1, &request, &captureSequenceId);
 
     return 2030;
 }

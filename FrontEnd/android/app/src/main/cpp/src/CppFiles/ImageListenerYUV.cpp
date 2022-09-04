@@ -6,7 +6,9 @@
 #include "../CameraEngine.h"
 #include <android/log.h>
 #include <opencv2/opencv.hpp>
-#include "../yuv/include/libyuv.h"
+#include "libyuv/rotate.h"
+#include "libyuv.h"
+#include "jpeglib.h"
 
 using namespace std::chrono;
 using namespace cv;
@@ -33,15 +35,19 @@ int i = 0;
      uint8_t *ydata;
      uint8_t *udata;
      uint8_t *vdata;
-     uint8_t *rawRGB = nullptr;
+     uint8_t *rawRGB;
+
 
      int ydataLength;
      int udataLength;
      int vdataLength;
-
      AImage_getPlaneData(image, 0 , &ydata, &ydataLength);
      AImage_getPlaneData(image, 1 , &udata, &udataLength);
      AImage_getPlaneData(image, 2 , &vdata, &vdataLength);
+     uint8_t *ydata_dst = (uint8_t *)malloc(ydataLength);
+     uint8_t *udata_dst = (uint8_t *)malloc(udataLength);
+     uint8_t *vdata_dst = (uint8_t *)malloc(udataLength);
+
 
      // also one of the important information about the image is it's three planes Pixel Stride and Row Stride
      // to know more about the strides and what they do head to https://docs.microsoft.com/en-us/windows/win32/medfound/image-stride
@@ -62,6 +68,7 @@ int i = 0;
      AImage_getPlaneRowStride(image, 1 , &uRowStride);
      AImage_getPlaneRowStride(image, 2 , &vRowStride);
 
+
      //int I420ToRAW(const uint8_t* src_y,
      //              int src_stride_y,
      //              const uint8_t* src_u,
@@ -73,13 +80,103 @@ int i = 0;
      //              int width,
      //              int height);
 
+     int size_dest = width * height * 4;
+     rawRGB = (uint8_t *)malloc(size_dest);
 
-     libyuv::I420ToRAW(ydata , yRowStride , udata , uRowStride , vdata , vRowStride , rawRGB , rawRGBRowStride , width , height);
+//     int Android420ToI420(const uint8_t* src_y,
+//                          int src_stride_y,
+//                          const uint8_t* src_u,
+//                          int src_stride_u,
+//                          const uint8_t* src_v,
+//                          int src_stride_v,
+//                          int src_pixel_stride_uv,
+//                          uint8_t* dst_y,
+//                          int dst_stride_y,
+//                          uint8_t* dst_u,
+//                          int dst_stride_u,
+//                          uint8_t* dst_v,
+//                          int dst_stride_v,
+//                          int width,
+//                          int height);
+//     int Android420ToABGR(const uint8_t* src_y,
+//                          int src_stride_y,
+//                          const uint8_t* src_u,
+//                          int src_stride_u,
+//                          const uint8_t* src_v,
+//                          int src_stride_v,
+//                          int src_pixel_stride_uv,
+//                          uint8_t* dst_abgr,
+//                          int dst_stride_abgr,
+//                          int width,
+//                          int height) {
+//         return Android420ToARGBMatrix(src_y, src_stride_y, src_v, src_stride_v, src_u,
+//                                       src_stride_u, src_pixel_stride_uv, dst_abgr,
+//                                       dst_stride_abgr, &kYvuI601Constants, width,
+//                                       height);
+//     }
+//
+
+//     libyuv::Android420ToI420(ydata , yRowStride , udata , uRowStride , vdata , vRowStride, uPixelStride , ydata_dst , yRowStride , udata_dst ,uRowStride  , vdata_dst ,vRowStride , width , height);
 
 
-if(uRowStride > width){
+         libyuv::Android420ToARGB(ydata , yRowStride , udata , uRowStride , vdata , vRowStride, uPixelStride , rawRGB , width * 4 , width , height);
+//         libyuv::I420ToABGR(ydata_dst , yRowStride , udata_dst , uRowStride , vdata_dst , vRowStride, rawRGB , width * 4 , width , height);
+         cv::Size actual_size(width, height);
+//     cv::Size half_size(width/2, height/2);
+//
+         cv::Mat rawRGBMat(actual_size, CV_8UC4 ,rawRGB);
+         cv::Mat rotatedImage;
+         cv::rotate(rawRGBMat, rotatedImage, cv::ROTATE_90_CLOCKWISE);
+         std::vector<uchar> outputImage;
+         cv::imencode(".jpg", rotatedImage, outputImage);
+         NotifyDart(outputImage.data(), width , height);
+
+//
+
+//     uint8_t *rotatedRawRGB = (uint8_t *)malloc(size_dest);
+//     libyuv::RotatePlane(rawRGB, width * 3,
+//                         rotatedRawRGB, width * 3,
+//                         width, height, libyuv::kRotate270);
+//     __android_log_print(ANDROID_LOG_INFO, "Information", "the row stride is bigger than the width -------------------->>>> %d" , rawRGBRowStride);
+//     __android_log_print(ANDROID_LOG_INFO, "Information", "the row stride is bigger than the width -------------------->>>> %d" , uRowStride);
+//     j_compress_ptr cinfo;
+////     cinfo->in_color_space = JCS_EXT_RGB;
+//
+//     jpeg_error_mgr jerr;
+//     cinfo->err = jpeg_std_error(&jerr);
+//     unsigned char *outputJPEG;
+//     unsigned long outsize;
+//
+//     jpeg_create_compress(cinfo);
+//     jpeg_mem_dest(cinfo , &outputJPEG , &outsize);
+//     cinfo->image_width = width;      /* image width and height, in pixels */
+//     cinfo->image_height = height;
+//     cinfo->input_components = 3;           /* # of color components per pixel */
+//     cinfo->in_color_space = JCS_RGB;/* colorspace of input image */
+
+//     jpeg_set_defaults(cinfo);
+//
+//     jpeg_set_quality(cinfo, 80, TRUE);
+//
+//     jpeg_start_compress(cinfo, TRUE);
+//     int row_stride = width * 3; /* JSAMPLEs per row in image_buffer */
+//     JSAMPROW row_pointer[1];
+//     while (cinfo->next_scanline < cinfo->image_height) {
+//         /* jpeg_write_scanlines expects an array of pointers to scanlines.
+//          * Here the array is only one element long, but you could pass
+//          * more than one scanline at a time if that's more convenient.
+//          */
+//         row_pointer[0] = &rawRGB[cinfo->next_scanline * row_stride];
+//         (void)jpeg_write_scanlines(cinfo, row_pointer, 1);
+//     }
+//
+//     jpeg_finish_compress(cinfo);
+//     jpeg_destroy_compress(cinfo);
+     if(uRowStride > width){
     __android_log_print(ANDROID_LOG_INFO, "Information", "the row stride is bigger than the width -------------------->>>> ");
+
 }
+
 //     int numPixels = width * height * 2;
 //     uint8_t* nv21 = (uint8_t*)malloc(numPixels);
 //     int yp, up, vp;
@@ -120,37 +217,37 @@ if(uRowStride > width){
 
 
 
-     cv::Size actual_size(width, height);
-     cv::Size half_size(width/2, height/2);
-
-//     cv::Mat nv21RGBA(actual_size, CV_8UC4 ,nv21);
-
-
-     cv::Mat y(actual_size, CV_8UC1,ydata);
-     cv::Mat u(half_size, CV_8UC1,udata);
-     cv::Mat v(half_size, CV_8UC1, vdata);
-
-     cv::Mat u_resized, v_resized;
-     cv::resize(u, u_resized, actual_size, 0, 0, cv::INTER_NEAREST); //repeat u values 4 times
-     cv::resize(v, v_resized, actual_size, 0, 0, cv::INTER_NEAREST); //repeat v values 4 times
-
-     cv::Mat yuv;
-
-     std::vector<cv::Mat> yuv_channels = { y, u_resized, v_resized };
-     cv::merge(yuv_channels, yuv);
-
-     y.release();
-     u.release();
-     v.release();
-
-
-
-     cv::Mat bgr;
-     cv::cvtColor(yuv, bgr, cv::COLOR_YUV2BGR);
-     cv::Mat rotatedImage;
-     cv::rotate(bgr, rotatedImage, cv::ROTATE_90_CLOCKWISE);
-     std::vector<uchar> outputImage;
-     cv::imencode(".jpeg", rotatedImage, outputImage);
+//     cv::Size actual_size(width, height);
+//     cv::Size half_size(width/2, height/2);
+//
+//     cv::Mat rawRGBMat(actual_size, CV_8UC4 ,rawRGB);
+//
+//
+//     cv::Mat rawRGBMat(actual_size, CV_8UC3,rawRGB);
+//     cv::Mat u(half_size, CV_8UC1,udata);
+//     cv::Mat v(half_size, CV_8UC1, vdata);
+//
+//     cv::Mat u_resized, v_resized;
+//     cv::resize(u, u_resized, actual_size, 0, 0, cv::INTER_NEAREST); //repeat u values 4 times
+//     cv::resize(v, v_resized, actual_size, 0, 0, cv::INTER_NEAREST); //repeat v values 4 times
+//
+//     cv::Mat yuv;
+//
+//     std::vector<cv::Mat> yuv_channels = { y, u_resized, v_resized };
+//     cv::merge(yuv_channels, yuv);
+//
+//     y.release();
+//     u.release();
+//     v.release();
+//
+//
+//
+//     cv::Mat bgr;
+//     cv::cvtColor(yuv, bgr, cv::COLOR_YUV2BGR);
+//     cv::Mat rotatedImage;
+//     cv::rotate(rawRGBMat, rotatedImage, cv::ROTATE_90_CLOCKWISE);
+//     std::vector<uchar> outputImage;
+//     cv::imencode(".jpeg", rotatedImage, outputImage);
 
       auto end = high_resolution_clock::now();
        auto duration = duration_cast<milliseconds>(end - start);
@@ -159,10 +256,16 @@ if(uRowStride > width){
 
 //     __android_log_print(ANDROID_LOG_INFO, "khaled", "the first element is -------------------->>>> %d" ,  nv21[0] );
 
-     NotifyDart(outputImage.data(), width , height);
+//     NotifyDart(outputImage.data(), width , height);
 //     nv21RGBA.release();
 //     outputImage.clear();
-//     free(nv21);
+     free(rawRGB);
+     free(ydata_dst);
+     free(udata_dst);
+     free(vdata_dst);
+     rawRGBMat.release();
+//     free(rotatedRawRGB);
+//     free(outputJPEG);
      AImage_delete(image);
 
 }

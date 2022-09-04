@@ -1,3 +1,6 @@
 [submodule "FrontEnd/android/app/src/main/cpp/src/external/yuv"]
 	path = FrontEnd/android/app/src/main/cpp/src/external/yuv
 	url = https://chromium.googlesource.com/libyuv/libyuv
+[submodule "FrontEnd/android/app/src/main/cpp/src/external/libjpeg"]
+	path = FrontEnd/android/app/src/main/cpp/src/external/libjpeg
+	url = https://github.com/libjpeg-turbo/libjpeg-turbo.git

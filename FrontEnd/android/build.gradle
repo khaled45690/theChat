@@ -24,7 +24,6 @@ subprojects {
 }
 subprojects {
     project.evaluationDependsOn(':opencv')
-    project.evaluationDependsOn(':yuv')
 }
 
 task clean(type: Delete) {

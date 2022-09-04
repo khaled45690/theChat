@@ -52,8 +52,6 @@ class _CameraImageStreamState extends State<CameraImageStream> {
     // // { argb, abgr, rgba, bgra, rgb, bgr, luminance }
 
 
-    // imglib.Image img = imglib.Image.fromBytes(imageWidth , imageHeight, imgData  , format: imglib.Format.luminance );
-
 
 
     // print(x);
@@ -76,7 +74,6 @@ class _CameraImageStreamState extends State<CameraImageStream> {
     // print('in callback From C++ the Uint32List is equal to=${img.data}');
 
     // imglib.PngEncoder pngEncoder = new imglib.PngEncoder(level: 0, filter: 0);
-    // List<int> Jpg = imglib.encodeJpg(img , quality: 100) ;
     // print('in callback From C++ the jpeg is equal to= $Jpg');
     // List<int> png = pngEncoder.encodeImage(img);
     // print(png);
@@ -88,14 +85,19 @@ class _CameraImageStreamState extends State<CameraImageStream> {
     //   Map data = jsonDecode(value);
     //
     // });
-
-    HttpPost("saveimage" , {"imageBytes" : Uint8List.fromList(imgData), "width" :  imageWidth, "height" : imageHeight});
     ImageStream.increaseAge(Uint8List.fromList(imgData), imageWidth, imageHeight );
+    // convertToJPEG(imgData , imageWidth, imageHeight);
+    // HttpPost("saveimage" , {"imageBytes" : Uint8List.fromList(imgData), "width" :  imageWidth, "height" : imageHeight});
     // person.increaseAge(Uint8List.fromList(imgData));
     //  jpgUinGlob = Uint8List.fromList(imgData);
     return 1;
   }
-
+  static Future<int> convertToJPEG(List<int> imgData , int imageWidth , int imageHeight)async {
+    imglib.Image img = imglib.Image.fromBytes(imageWidth , imageHeight, imgData  , format: imglib.Format.rgb );
+    List<int> Jpg = imglib.encodeJpg(img , quality: 100) ;
+    ImageStream.increaseAge(Uint8List.fromList(Jpg), imageWidth, imageHeight );
+     return 0;
+}
   void initState() {
     checkPermission();
     super.initState();
@@ -111,12 +113,14 @@ class _CameraImageStreamState extends State<CameraImageStream> {
         child: StreamBuilder(
           stream: ImageStream.imageStream.stream,
           builder: (BuildContext context, AsyncSnapshot<ui.Image> imageData) {
-            return  Container(
-              width: MediaQuery.of(context).size.width - 10,
-              height: MediaQuery.of(context).size.height - 10,
-              child: RawImage(
-                fit: BoxFit.cover,
-                image: imageData.data,
+            return  RotatedBox(
+              quarterTurns: 0,
+              child: Container(
+                width: MediaQuery.of(context).size.width - 10,
+                height: MediaQuery.of(context).size.height - 10,
+                child: RawImage(
+                  image: imageData.data,
+                ),
               ),
             );
 
@@ -132,11 +136,13 @@ class _CameraImageStreamState extends State<CameraImageStream> {
   }
 
   checkPermission() async {
-    final interactiveCppRequests = ReceivePort()
-      ..listen(requestExecuteCallback);
-    final int nativePort = interactiveCppRequests.sendPort.nativePort;
+
+    //
     PermissionStatus status = await Permission.camera.status;
     if (status.isGranted) {
+      final interactiveCppRequests = ReceivePort()
+        ..listen(requestExecuteCallback);
+      final int nativePort = interactiveCppRequests.sendPort.nativePort;
       final ffi.DynamicLibrary nativeAddLib = io.Platform.isAndroid
           ? ffi.DynamicLibrary.open('libmain.so')
           : ffi.DynamicLibrary.process();
@@ -156,8 +162,10 @@ class _CameraImageStreamState extends State<CameraImageStream> {
 
       // final int Function(int Funstr) = nativeAddLib.lookupFunction<FuntionToNative, FuntionToDart>('reverse');
 
-    } else if (status.isDenied) {
-      // checkPermission();
+    } else if (status.isDenied){
+
+      await Permission.camera.request();
+       checkPermission();
     }
   }
 

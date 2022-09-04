@@ -9,9 +9,8 @@ cmake_minimum_required(VERSION 3.18.1)
 # Declares and names the project.
 
 project("main")
-project("opencv")
-project("yuv")
-
+#project("opencv")
+#
 SET(OpenCV_STATIC on)
 SET(OpenCV_DIR C:/Users/khaled/Downloads/opencv-4.6.0-android-sdk/OpenCV-android-sdk/sdk/native/jni)
 find_package(OpenCV REQUIRED)
@@ -20,12 +19,11 @@ find_package(OpenCV REQUIRED)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 #target_link_libraries(F:/programing/AndroidStudio/Flutter/flutter_windows_2.5.3-stable/flutter/bin/cache/dart-sdk/bin/dart.so)
-
-SET(YUV_STATIC on)
-SET(YUV_DIR F:/programs/YUV/libyuv/src)
-find_package(YUV REQUIRED)
-
-
+add_subdirectory(./src/external/yuv)
+FILE ( GLOB_RECURSE	ly_source_files src/external/yuv/source/*.cc )
+LIST ( SORT			ly_source_files )
+FILE ( GLOB_RECURSE	F:/programs/YUV/libyuv/src/third_party/libjpeg_turbo/*.c)
+LIST ( SORT			JPEG_source_files )
 add_library( # Sets the name of the library.
         main
 
@@ -38,15 +36,13 @@ add_library( # Sets the name of the library.
         src/CppFiles/ImageListenerYUV.cpp
         src/CppFiles/ImageListenerJPEG.cpp
         src/CppFiles/DartNotifyHandler.cpp
-        src/yuv/source/convert_argb.cc
         F:/programing/AndroidStudio/Flutter/flutter_windows_2.5.3-stable/flutter/bin/cache/dart-sdk/include/dart_api_dl.c
         F:/programing/AndroidStudio/Flutter/flutter_windows_2.5.3-stable/flutter/bin/cache/dart-sdk/bin/dart.lib
+        ${ly_source_files}
+        ${JPEG_source_files}
         )
 
-add_subdirectory(F:/programs/YUV/libyuv/src/CMakeLists.txt)
 
-target_include_directories(main PUBLIC F:/programs/YUV/libyuv/src/include)
-target_link_directories(main PUBLIC F:/programs/YUV/libyuv/src)
 
 #set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
 
@@ -55,8 +51,10 @@ target_link_directories(main PUBLIC F:/programs/YUV/libyuv/src)
 # default, you only need to specify the name of the public NDK library
 # you want to add. CMake verifies that the library exists before
 # completing its build.
-
-
+#add_library(libyuv DYNAMIC ./libyuv.so)
+target_include_directories(main PUBLIC src/external/yuv/include F:/programs/YUV/libyuv/src/third_party/libjpeg_turbo)
+#target_link_directories(main PUBLIC src/external/yuv/source)
+#target_sources(main PUBLIC src/external/yuv/source)
 
 
 find_library( # Sets the name of the path variable.
@@ -77,7 +75,6 @@ target_link_libraries( # Specifies the target library.
                         camera2ndk
                         android
                         mediandk
-                        yuv
+#                        src/external/yuv/source
                         ${OpenCV_LIBS}
-                        ${YUV_LIBS}
                        ${log-lib} )
