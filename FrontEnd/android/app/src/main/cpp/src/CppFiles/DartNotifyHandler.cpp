@@ -14,6 +14,5 @@ void CameraEngine::NotifyDart(uint8_t* imageData, int64_t width, int64_t height)
     dart_object.type = Dart_CObject_kInt64;
     dart_object.value.as_int64 = work_addr;
     Dart_PostCObject_DL(dartSendPort, &dart_object);
-
 }
 

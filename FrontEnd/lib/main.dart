@@ -1,13 +1,18 @@
 // ignore_for_file: prefer_const_constructors
 
 
+import 'package:camera/camera.dart';
 import 'package:chat/src/ChatRoom/VideoChat/Widgets/CameraImageStream.dart';
+import 'package:chat/src/PoseDetector/PoseDetector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'businesslogic/UserData/UserBloc.dart';
 import 'businesslogic/socket/SocketCubit.dart';
+List<CameraDescription> cameras = [];
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
+  cameras = await availableCameras();
   runApp(MultiBlocProvider(providers: [
     BlocProvider<SocketCubit>(
       create: (BuildContext context) => SocketCubit(),
